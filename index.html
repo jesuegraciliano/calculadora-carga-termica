@@ -1,34 +1,54 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Calculadora de Carga Térmica</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <div class="container">
+
+        <!-- Logotipo ou nome institucional -->
+        <div class="logo-topo">
+            <!-- Se tiver a imagem, use esta linha abaixo -->
+            <img src="logo-ifsc.png" alt="Logotipo do IFSC" class="logo" />
+            <!-- Se não tiver imagem, use o texto abaixo -->
+            <!--
+            <h2>IFSC São José</h2>
+            <p>Curso Técnico de Refrigeração</p>
+            -->
+        </div>
+
         <h1>Calculadora de Carga Térmica</h1>
-        <p class="description">Insira os dados em verde. Os fatores são fixos (amarelo). A carga térmica será calculada (azul).</p>
+        <p class="description">Insira os dados na coluna central. Os fatores estão fixos à direita. O resultado aparece na última coluna.</p>
 
         <table class="thermal-table">
             <thead>
                 <tr>
                     <th>Item de Carga Térmica</th>
-                    <th class="fixed">Fator</th>
-                    <th class="input">Dado</th>
-                    <th class="output">Carga Térmica (kcal/h)</th>
+                    <th>Dado</th>
+                    <th>Fator</th>
+                    <th>Carga Térmica (kcal/h)</th>
                 </tr>
             </thead>
             <tbody id="thermalBody">
-                <!-- JavaScript insere aqui -->
+                <!-- As linhas serão geradas dinamicamente por script.js -->
             </tbody>
         </table>
 
         <div class="results-section">
-            <h2>Carga Térmica Total</h2>
-            <div class="result-value" id="totalKcalh">0.00 kcal/h</div>
+            <h2>Resultado Final</h2>
+            <div class="result-item" id="totalKcalh">0.00 kcal/h</div>
+            <div class="result-item" id="totalTR"></div>
         </div>
+
+        <p class="note">
+            Elaborado por jesue@ifsc.edu.br<br/>
+            Esta é uma estimativa baseada na região de Florianópolis, considerando paredes de 15 cm de espessura. Para outras condições, consulte um Técnico de Refrigeração.
+        </p>
+
+        <button onclick="window.print()" class="pdf-button">Gerar PDF</button>
     </div>
 
     <script src="script.js"></script>
