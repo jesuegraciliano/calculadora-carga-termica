@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     container.insertBefore(subHeader, headerTitle.nextSibling);
 
     const autor = document.createElement("p");
-    autor.textContent = "Desenvolvido por Prof. Jesué Graciliano da Silva";
+    autor.textContent = "Desenvolvido por jesue@ifsc.edu.br";
     autor.style.textAlign = "center";
     autor.style.fontStyle = "italic";
     autor.style.marginTop = "10px";
@@ -118,8 +118,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function gerarPDF() {
         let texto = "Relatório de Carga Térmica\n\n";
-        texto += "Item de Carga Térmica           | Dado Inserido | Fator Fixo | Carga Térmica (kcal/h)\n";
-        texto += "--------------------------------------------------------------\n";
+        texto += "Item de Carga Térmica                      | Dado Inserido | Fator Fixo | Carga Térmica (kcal/h)\n";
+        texto += "----------------------------------------------------- -----------------------------------------\n";
         thermalData.forEach(item => {
             const dado = document.getElementById(item.id).value;
             const carga = document.getElementById(item.id + "_resultado").textContent;
