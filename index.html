@@ -8,21 +8,19 @@
 </head>
 <body>
     <div class="container">
-
-        <!-- Logotipo ou nome institucional -->
-        <div class="logo-topo">
-            <!-- Se tiver a imagem, use esta linha abaixo -->
+        
+        <!-- Logotipo IFSC -->
+        <div class="logo-topo"> 
             <img src="logo-ifsc.png" alt="Logotipo do IFSC" class="logo" />
-            <!-- Se não tiver imagem, use o texto abaixo -->
-            <!--
-            <h2>IFSC São José</h2>
-            <p>Curso Técnico de Refrigeração</p>
-            -->
         </div>
 
+        <!-- Cabeçalhos -->
         <h1>Calculadora de Carga Térmica</h1>
-        <p class="description">Insira os dados na coluna central. Os fatores estão fixos à direita. O resultado aparece na última coluna.</p>
+        <p class="description">
+            Insira os dados na coluna central. Os fatores estão fixos à direita. O resultado aparece na última coluna.
+        </p>
 
+        <!-- Tabela de cálculo -->
         <table class="thermal-table">
             <thead>
                 <tr>
@@ -33,24 +31,18 @@
                 </tr>
             </thead>
             <tbody id="thermalBody">
-                <!-- As linhas serão geradas dinamicamente por script.js -->
+                <!-- Conteúdo inserido dinamicamente por script.js -->
             </tbody>
         </table>
 
+        <!-- Resultados totais -->
         <div class="results-section">
             <h2>Resultado Final</h2>
             <div class="result-item" id="totalKcalh">0.00 kcal/h</div>
             <div class="result-item" id="totalTR"></div>
         </div>
 
+        <!-- Observação técnica -->
         <p class="note">
             Elaborado por jesue@ifsc.edu.br<br/>
-            Esta é uma estimativa baseada na região de Florianópolis. Paredes de 15cm.
-        </p>
-
-        <button onclick="window.print()" class="pdf-button">Gerar PDF</button>
-    </div>
-
-    <script src="script.js"></script>
-</body>
-</html>
+            Esta é uma estimativa válida para a regi
