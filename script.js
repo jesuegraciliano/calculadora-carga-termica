@@ -52,8 +52,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         thermalData.forEach(item => {
             const input = document.getElementById(item.id);
-            const value = parseFloat(input.value.replace(",", ".")) || 0;
-            const carga = value * item.fator;
+            const valor = parseFloat(input.value.replace(",", ".")) || 0;
+            const carga = valor * item.fator;
             total += carga;
 
             const resultadoTd = document.getElementById(item.id + "_resultado");
@@ -86,16 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         trDisplay.textContent = `${tr.toFixed(2)} TR  |  ${btuh.toFixed(2)} BTU/h`;
     }
 
+    // Gera todas as linhas ao carregar a página
     thermalData.forEach(createRow);
     calcularCargaTermica();
 });
-.logo-topo {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.logo {
-    max-width: 180px;
-    height: auto;
-}
-
