@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     container.insertBefore(headerTitle, logo.nextSibling);
 
     const subHeader = document.createElement("h2");
-    subHeader.textContent = "Curso Técnico de Refrigeração e Climatização";
+    subHeader.textContent = "Curso Técnico de Refrigeração";
     subHeader.style.textAlign = "center";
     subHeader.style.fontWeight = "normal";
     subHeader.style.marginTop = "0";
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     container.insertBefore(subHeader, headerTitle.nextSibling);
 
     const autor = document.createElement("p");
-    autor.textContent = "Desenvolvido por jesue@ifsc.edu.br";
+    autor.textContent = "Desenvolvido por Prof. Jesué Graciliano da Silva";
     autor.style.textAlign = "center";
     autor.style.fontStyle = "italic";
     autor.style.marginTop = "10px";
