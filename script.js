@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const total = document.getElementById("totalKcalh").textContent;
         const tr = document.getElementById("totalTR").textContent;
         texto += `TOTAL: ${total}  |  ${tr}\n\n`;
-        texto += "Observação: Os dados devem ser revisados in loco. Região de Florianópolis, Paredes de 15cm de espessura.";
+        
 
         const doc = new jsPDF();
         doc.setFontSize(12);
