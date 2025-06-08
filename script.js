@@ -13,15 +13,24 @@ document.addEventListener("DOMContentLoaded", function () {
         { label: "Vazão de ar de renovação (m³/h)", fator: 8.2, id: "dado11" }
     ];
 
-    document.body.style.backgroundColor = "#1b5e20"; // Verde escuro
+    document.body.style.backgroundColor = "#1b5e20";
 
     const container = document.querySelector(".container");
+
+    // Inserir logotipo IFSC
+    const logo = document.createElement("img");
+    logo.src = "./ifsc-logo.png";
+    logo.alt = "Logotipo IFSC";
+    logo.style.display = "block";
+    logo.style.margin = "0 auto 20px auto";
+    logo.style.maxHeight = "60px";
+    container.insertBefore(logo, container.firstChild);
 
     const headerTitle = document.createElement("h1");
     headerTitle.textContent = "IFSC São José";
     headerTitle.style.textAlign = "center";
     headerTitle.style.marginBottom = "5px";
-    container.insertBefore(headerTitle, container.firstChild);
+    container.insertBefore(headerTitle, logo.nextSibling);
 
     const subHeader = document.createElement("h2");
     subHeader.textContent = "Curso Técnico de Refrigeração";
@@ -29,20 +38,14 @@ document.addEventListener("DOMContentLoaded", function () {
     subHeader.style.fontWeight = "normal";
     subHeader.style.marginTop = "0";
     subHeader.style.marginBottom = "20px";
-    container.insertBefore(subHeader, container.children[1]);
+    container.insertBefore(subHeader, headerTitle.nextSibling);
 
     const autor = document.createElement("p");
-    autor.textContent = "Desenvolvido por jesue@ifsc.edu.br";
+    autor.textContent = "Desenvolvido por Prof. Jesué Graciliano da Silva";
     autor.style.textAlign = "center";
     autor.style.fontStyle = "italic";
     autor.style.marginTop = "10px";
     container.appendChild(autor);
-
-    const headerRow = document.querySelector("thead tr");
-    if (headerRow && headerRow.children.length >= 4) {
-        headerRow.children[1].textContent = "Entrada";
-        headerRow.children[2].textContent = "Fator";
-    }
 
     const tableBody = document.getElementById("thermalBody");
 
@@ -114,28 +117,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function gerarPDF() {
-        let texto = "Relatório de Carga Térmica
-
-";
-        texto += "Item de Carga Térmica           | Dado Inserido | Fator Fixo | Carga Térmica (kcal/h)
-";
-        texto += "--------------------------------------------------------------
-";
+        let texto = "Relatório de Carga Térmica\n\n";
+        texto += "Item de Carga Térmica           | Dado Inserido | Fator Fixo | Carga Térmica (kcal/h)\n";
+        texto += "--------------------------------------------------------------\n";
         thermalData.forEach(item => {
             const dado = document.getElementById(item.id).value;
             const carga = document.getElementById(item.id + "_resultado").textContent;
-            const linha = `${item.label.padEnd(35)} | ${dado.padStart(13)} | ${String(item.fator).padStart(10)} | ${carga.padStart(20)}
-`;
+            const linha = `${item.label.padEnd(35)} | ${dado.padStart(13)} | ${String(item.fator).padStart(10)} | ${carga.padStart(20)}\n`;
             texto += linha;
         });
 
-        texto += "
-
-";
+        texto += "\n\n";
         const total = document.getElementById("totalKcalh").textContent;
         const tr = document.getElementById("totalTR").textContent;
         texto += `TOTAL: ${total}  |  ${tr}\n\n`;
-        
 
         const doc = new jsPDF();
         doc.setFontSize(12);
