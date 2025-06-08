@@ -13,6 +13,22 @@ document.addEventListener("DOMContentLoaded", function () {
         { label: "Vazão de ar de renovação (m³/h)", fator: 8.2, id: "dado11" }
     ];
 
+    const container = document.querySelector(".container");
+    const logo = document.createElement("img");
+    logo.src = "https://ifsc.edu.br/documents/10180/0/Marca_IFSC_vertical_cor/277fa59d-29bb-4a8b-8ee3-34f0b6c45625?t=1643133810231";
+    logo.alt = "Logotipo do IFSC";
+    logo.style.maxWidth = "150px";
+    logo.style.display = "block";
+    logo.style.margin = "0 auto 20px auto";
+    container.insertBefore(logo, container.firstChild);
+
+    const autor = document.createElement("p");
+    autor.textContent = "Desenvolvido por Prof. Jesué Graciliano da Silva";
+    autor.style.textAlign = "center";
+    autor.style.fontStyle = "italic";
+    autor.style.marginTop = "10px";
+    container.appendChild(autor);
+
     const tableBody = document.getElementById("thermalBody");
 
     function createRow(item) {
@@ -20,10 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const tdLabel = document.createElement("td");
         tdLabel.textContent = item.label;
-
-        const tdFator = document.createElement("td");
-        tdFator.textContent = item.fator;
-        tdFator.classList.add("fixed");
 
         const tdDado = document.createElement("td");
         const input = document.createElement("input");
@@ -34,14 +46,18 @@ document.addEventListener("DOMContentLoaded", function () {
         input.addEventListener("input", calcularCargaTermica);
         tdDado.appendChild(input);
 
+        const tdFator = document.createElement("td");
+        tdFator.textContent = item.fator;
+        tdFator.classList.add("fixed");
+
         const tdResultado = document.createElement("td");
         tdResultado.id = item.id + "_resultado";
         tdResultado.classList.add("output");
         tdResultado.textContent = "0.00";
 
         tr.appendChild(tdLabel);
-        tr.appendChild(tdFator);
         tr.appendChild(tdDado);
+        tr.appendChild(tdFator);
         tr.appendChild(tdResultado);
         tableBody.appendChild(tr);
     }
@@ -57,7 +73,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         document.getElementById("totalKcalh").textContent = total.toFixed(2) + " kcal/h";
 
-        // Calcular Toneladas de Refrigeração (1 TR = 3000 kcal/h)
         const tr = total / 3000;
         let trDisplay = document.getElementById("totalTR");
         if (!trDisplay) {
@@ -73,11 +88,39 @@ document.addEventListener("DOMContentLoaded", function () {
             trDisplay.classList.add("result-value");
             trContainer.appendChild(trDisplay);
 
-            document.querySelector(".container").appendChild(trContainer);
+            const exportButton = document.createElement("button");
+            exportButton.textContent = "Gerar PDF do Relatório";
+            exportButton.addEventListener("click", gerarPDF);
+            trContainer.appendChild(exportButton);
+
+            container.appendChild(trContainer);
         }
         trDisplay.textContent = tr.toFixed(2) + " TR";
     }
 
+    function gerarPDF() {
+        let texto = "Relatório de Carga Térmica\n\n";
+        thermalData.forEach(item => {
+            const dado = document.getElementById(item.id).value;
+            const carga = document.getElementById(item.id + "_resultado").textContent;
+            texto += `${item.label}:\n  Dado inserido: ${dado}\n  Fator fixo: ${item.fator}\n  Carga Térmica: ${carga} kcal/h\n\n`;
+        });
+        const total = document.getElementById("totalKcalh").textContent;
+        const tr = document.getElementById("totalTR").textContent;
+        texto += `TOTAL: ${total}  |  ${tr}\n\n`;
+        texto += "Observação: Os dados devem ser revisados in loco. Esta estimativa é válida para a região de Florianópolis, com paredes de 15cm de espessura. Para outras regiões e condições, procure um Técnico de Refrigeração.";
+
+        const doc = new jsPDF();
+        doc.setFontSize(12);
+        doc.text(texto, 10, 10);
+        doc.save("relatorio_carga_termica.pdf");
+    }
+
     thermalData.forEach(createRow);
     calcularCargaTermica();
+
+    const script = document.createElement("script");
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
+    script.onload = () => window.jsPDF = window.jspdf.jsPDF;
+    document.body.appendChild(script);
 });
