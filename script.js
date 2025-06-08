@@ -14,13 +14,20 @@ document.addEventListener("DOMContentLoaded", function () {
     ];
 
     const container = document.querySelector(".container");
-    const logo = document.createElement("img");
-    logo.src = "https://ifsc.edu.br/documents/10180/0/Marca_IFSC_vertical_cor/277fa59d-29bb-4a8b-8ee3-34f0b6c45625?t=1643133810231";
-    logo.alt = "Logotipo do IFSC";
-    logo.style.maxWidth = "150px";
-    logo.style.display = "block";
-    logo.style.margin = "0 auto 20px auto";
-    container.insertBefore(logo, container.firstChild);
+
+    const headerTitle = document.createElement("h1");
+    headerTitle.textContent = "IFSC São José";
+    headerTitle.style.textAlign = "center";
+    headerTitle.style.marginBottom = "5px";
+    container.insertBefore(headerTitle, container.firstChild);
+
+    const subHeader = document.createElement("h2");
+    subHeader.textContent = "Curso Técnico de Refrigeração";
+    subHeader.style.textAlign = "center";
+    subHeader.style.fontWeight = "normal";
+    subHeader.style.marginTop = "0";
+    subHeader.style.marginBottom = "20px";
+    container.insertBefore(subHeader, container.children[1]);
 
     const autor = document.createElement("p");
     autor.textContent = "Desenvolvido por Prof. Jesué Graciliano da Silva";
@@ -108,8 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const total = document.getElementById("totalKcalh").textContent;
         const tr = document.getElementById("totalTR").textContent;
         texto += `TOTAL: ${total}  |  ${tr}\n\n`;
-        texto += "Observação: Os dados devem ser revisados in loco. Esta estimativa é válida para a região de Florianópolis, com paredes de 15cm de espessura. Para outras regiões e condições, procure um Técnico de Refrigeração.";
-
+        texto += "Observação: Os dados devem ser revisados in loco. Considerou-se paredes de 15cm de espessura";
+        texto += "Esta estimativa é válida para a região de Florianópolis";
         const doc = new jsPDF();
         doc.setFontSize(12);
         doc.text(texto, 10, 10);
