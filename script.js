@@ -13,6 +13,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { label: "Vazão de ar de renovação (m³/h)", fator: 8.2, id: "dado11" }
     ];
 
+    document.body.style.backgroundColor = "#1b5e20"; // Verde escuro
+
     const container = document.querySelector(".container");
 
     const headerTitle = document.createElement("h1");
@@ -30,11 +32,17 @@ document.addEventListener("DOMContentLoaded", function () {
     container.insertBefore(subHeader, container.children[1]);
 
     const autor = document.createElement("p");
-    autor.textContent = "Desenvolvido por: jesue@ifsc.edu.br";
+    autor.textContent = "Desenvolvido por Prof. Jesué Graciliano da Silva";
     autor.style.textAlign = "center";
     autor.style.fontStyle = "italic";
     autor.style.marginTop = "10px";
     container.appendChild(autor);
+
+    const headerRow = document.querySelector("thead tr");
+    if (headerRow && headerRow.children.length >= 4) {
+        headerRow.children[1].textContent = "Entrada";
+        headerRow.children[2].textContent = "Fator";
+    }
 
     const tableBody = document.getElementById("thermalBody");
 
@@ -115,8 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const total = document.getElementById("totalKcalh").textContent;
         const tr = document.getElementById("totalTR").textContent;
         texto += `TOTAL: ${total}  |  ${tr}\n\n`;
-        texto += "Observação: Os dados devem ser revisados in loco";
-        texto += "Válida para a região de Florianópolis";
+        texto += "Observação: Os dados devem ser revisados in loco. Esta estimativa é válida para a região de Florianópolis, com paredes de 15cm de espessura. Para outras regiões e condições, procure um Técnico de Refrigeração.";
+
         const doc = new jsPDF();
         doc.setFontSize(12);
         doc.text(texto, 10, 10);
