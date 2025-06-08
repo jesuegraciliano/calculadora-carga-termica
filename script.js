@@ -89,3 +89,13 @@ document.addEventListener("DOMContentLoaded", function () {
     thermalData.forEach(createRow);
     calcularCargaTermica();
 });
+.logo-topo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    max-width: 180px;
+    height: auto;
+}
+
