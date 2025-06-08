@@ -14,13 +14,27 @@ document.addEventListener("DOMContentLoaded", function () {
   ];
 
   const tableBody = document.getElementById("thermalBody");
-  const container = document.querySelector(".container");
+  const tableHead = document.querySelector("thead tr");
+
+  // Corrige os títulos das colunas
+  if (tableHead) {
+    tableHead.innerHTML = `
+      <th>Item de Carga Térmica</th>
+      <th>Fator</th>
+      <th>Dado</th>
+      <th>Carga Térmica (kcal/h)</th>
+    `;
+  }
 
   function createRow(item) {
     const tr = document.createElement("tr");
 
     const tdLabel = document.createElement("td");
     tdLabel.textContent = item.label;
+
+    const tdFator = document.createElement("td");
+    tdFator.textContent = item.fator;
+    tdFator.classList.add("fixed");
 
     const tdInput = document.createElement("td");
     const input = document.createElement("input");
@@ -30,10 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
     input.id = item.id;
     input.addEventListener("input", calcularCarga);
     tdInput.appendChild(input);
-
-    const tdFator = document.createElement("td");
-    tdFator.textContent = item.fator;
-    tdFator.classList.add("fixed");
 
     const tdResultado = document.createElement("td");
     tdResultado.textContent = "0.00";
