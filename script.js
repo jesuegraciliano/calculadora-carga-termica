@@ -1,43 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
     const thermalData = [
-        { label: "Área de paredes ao SOL", fator: 43, id: "dado1" },
-        { label: "Área de paredes à sombra", fator: 18, id: "dado2" },
-        { label: "Área de janela ou porta de vidro ao sol", fator: 520, id: "dado3" },
-        { label: "Área de janela ou porta vidro ao sol com cortina", fator: 353, id: "dado4" },
-        { label: "Área de janela ou porta de vidro à sombra", fator: 42, id: "dado5" },
-        { label: "Área de cobertura", fator: 20, id: "dado6" },
-        { label: "Área de piso entre andares", fator: 10, id: "dado7" },
-        { label: "Número de pessoas", fator: 100, id: "dado8" },
+        { label: "Área de paredes ao SOL", fator: 158, id: "dado1" },
+        { label: "Área de paredes à sombra", fator: 95, id: "dado2" },
+        { label: "Área de janela ou porta de vidro ao sol", fator: 16, id: "dado3" },
+        { label: "Área de janela ou porta vidro ao sol com cortina", fator: 12, id: "dado4" },
+        { label: "Área de janela ou porta de vidro à sombra", fator: 0, id: "dado5" },
+        { label: "Área de cobertura", fator: 229, id: "dado6" },
+        { label: "Área de piso entre andares", fator: 0, id: "dado7" },
+        { label: "Número de pessoas", fator: 13, id: "dado8" },
         { label: "Potência dos equipamentos", fator: 1, id: "dado9" },
         { label: "Potência de iluminação", fator: 1, id: "dado10" },
-        { label: "Vazão de ar de renovação (m³/h)", fator: 8.2, id: "dado11" }
+        { label: "Vazão de ar de renovação (m³/h)", fator: 357, id: "dado11" }
     ];
 
-    document.body.style.backgroundColor = "#1b5e20";
-
     const container = document.querySelector(".container");
-
-    const headerTitle = document.createElement("h1");
-    headerTitle.textContent = "IFSC São José";
-    headerTitle.style.textAlign = "center";
-    headerTitle.style.marginBottom = "5px";
-    container.insertBefore(headerTitle, container.firstChild);
-
-    const subHeader = document.createElement("h2");
-    subHeader.textContent = "Curso Técnico de Refrigeração";
-    subHeader.style.textAlign = "center";
-    subHeader.style.fontWeight = "normal";
-    subHeader.style.marginTop = "0";
-    subHeader.style.marginBottom = "20px";
-    container.insertBefore(subHeader, container.children[1]);
-
-    const autor = document.createElement("p");
-    autor.textContent = "Elaborado por jesue@ifsc.edu.br";
-    autor.style.textAlign = "center";
-    autor.style.fontStyle = "italic";
-    autor.style.marginTop = "10px";
-    container.appendChild(autor);
-
     const tableBody = document.getElementById("thermalBody");
 
     function createRow(item) {
@@ -46,14 +22,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const tdLabel = document.createElement("td");
         tdLabel.textContent = item.label;
 
-        const tdDado = document.createElement("td");
+        const tdInput = document.createElement("td");
         const input = document.createElement("input");
         input.type = "number";
         input.id = item.id;
-        input.value = 0;
+        input.placeholder = "0";
         input.classList.add("input");
         input.addEventListener("input", calcularCargaTermica);
-        tdDado.appendChild(input);
+        tdInput.appendChild(input);
 
         const tdFator = document.createElement("td");
         tdFator.textContent = item.fator;
@@ -64,28 +40,34 @@ document.addEventListener("DOMContentLoaded", function () {
         tdResultado.classList.add("output");
         tdResultado.textContent = "0.00";
 
-        tr.appendChild(tdLabel);
-        tr.appendChild(tdDado);
-        tr.appendChild(tdFator);
-        tr.appendChild(tdResultado);
+        tr.appendChild(tdLabel);      // 1ª coluna: descrição
+        tr.appendChild(tdInput);      // 2ª coluna: dado a ser inserido
+        tr.appendChild(tdFator);      // 3ª coluna: fator fixo
+        tr.appendChild(tdResultado);  // 4ª coluna: resultado
+
         tableBody.appendChild(tr);
     }
 
     function calcularCargaTermica() {
         let total = 0;
+
         thermalData.forEach(item => {
             const input = document.getElementById(item.id);
-            const value = parseFloat(input.value.replace(',', '.')) || 0;
-            const carga = value * item.fator;
+            const valor = parseFloat(input.value.replace(",", ".")) || 0;
+            const carga = valor * item.fator;
             total += carga;
-            document.getElementById(item.id + "_resultado").textContent = carga.toFixed(2);
+
+            const resultadoTd = document.getElementById(item.id + "_resultado");
+            resultadoTd.textContent = carga.toFixed(2);
         });
+
         document.getElementById("totalKcalh").textContent = total.toFixed(2) + " kcal/h";
 
         const tr = total / 3000;
         const btuh = tr * 12000;
 
         let trDisplay = document.getElementById("totalTR");
+
         if (!trDisplay) {
             const trContainer = document.createElement("div");
             trContainer.classList.add("results-section");
@@ -101,6 +83,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             container.appendChild(trContainer);
         }
+
         trDisplay.textContent = `${tr.toFixed(2)} TR  |  ${btuh.toFixed(2)} BTU/h`;
     }
 
