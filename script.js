@@ -115,8 +115,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const total = document.getElementById("totalKcalh").textContent;
         const tr = document.getElementById("totalTR").textContent;
         texto += `TOTAL: ${total}  |  ${tr}\n\n`;
-        texto += "Observação: Os dados devem ser revisados in loco. Considerou-se paredes de 15cm de espessura";
-        texto += "Esta estimativa é válida para a região de Florianópolis";
+        texto += "Observação: Os dados devem ser revisados in loco";
+        texto += "Válida para a região de Florianópolis";
         const doc = new jsPDF();
         doc.setFontSize(12);
         doc.text(texto, 10, 10);
