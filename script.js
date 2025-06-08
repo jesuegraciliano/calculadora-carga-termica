@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     container.insertBefore(subHeader, headerTitle.nextSibling);
 
     const autor = document.createElement("p");
-    autor.textContent = "Desenvolvido por Prof. Jesué Graciliano da Silva";
+    autor.textContent = "Desenvolvido por jesue@ifsc.edu.br";
     autor.style.textAlign = "center";
     autor.style.fontStyle = "italic";
     autor.style.marginTop = "10px";
