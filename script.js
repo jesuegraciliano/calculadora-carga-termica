@@ -56,6 +56,17 @@ document.addEventListener("DOMContentLoaded", function () {
             document.getElementById(item.id + "_resultado").textContent = carga.toFixed(2);
         });
         document.getElementById("totalKcalh").textContent = total.toFixed(2) + " kcal/h";
+
+        // Calcular Toneladas de Refrigeração (1 TR = 3000 kcal/h)
+        const tr = total / 3000;
+        let trDisplay = document.getElementById("totalTR");
+        if (!trDisplay) {
+            trDisplay = document.createElement("div");
+            trDisplay.id = "totalTR";
+            trDisplay.classList.add("result-value");
+            document.querySelector(".results-section").appendChild(trDisplay);
+        }
+        trDisplay.textContent = tr.toFixed(2) + " TR (Toneladas de Refrigeração)";
     }
 
     thermalData.forEach(createRow);
