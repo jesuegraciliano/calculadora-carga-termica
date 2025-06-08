@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
     container.insertBefore(headerTitle, logo.nextSibling);
 
     const subHeader = document.createElement("h2");
-    subHeader.textContent = "Curso Técnico de Refrigeração";
+    subHeader.textContent = "Curso Técnico de Refrigeração e Climatização";
     subHeader.style.textAlign = "center";
     subHeader.style.fontWeight = "normal";
     subHeader.style.marginTop = "0";
@@ -118,12 +118,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function gerarPDF() {
         let texto = "Relatório de Carga Térmica\n\n";
-        texto += "Item de Carga Térmica                      | Dado Inserido | Fator Fixo | Carga Térmica (kcal/h)\n";
-        texto += "----------------------------------------------------- -----------------------------------------\n";
+        texto += "Item de Carga Térmica                     | Dado Inserido | Fator Fixo | Carga Térmica (kcal/h)
+";
+        texto += "--------------------------------------------------------------\n";
         thermalData.forEach(item => {
             const dado = document.getElementById(item.id).value;
             const carga = document.getElementById(item.id + "_resultado").textContent;
-            const linha = `${item.label.padEnd(35)} | ${dado.padStart(13)} | ${String(item.fator).padStart(10)} | ${carga.padStart(20)}\n`;
+            const linha = `${item.label.padEnd(40)} | ${dado.toString().padStart(13)} | ${String(item.fator).padStart(10)} | ${carga.padStart(24)}
+`;
             texto += linha;
         });
 
