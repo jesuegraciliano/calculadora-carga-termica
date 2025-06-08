@@ -114,12 +114,24 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function gerarPDF() {
-        let texto = "Relatório de Carga Térmica\n\n";
+        let texto = "Relatório de Carga Térmica
+
+";
+        texto += "Item de Carga Térmica           | Dado Inserido | Fator Fixo | Carga Térmica (kcal/h)
+";
+        texto += "--------------------------------------------------------------
+";
         thermalData.forEach(item => {
             const dado = document.getElementById(item.id).value;
             const carga = document.getElementById(item.id + "_resultado").textContent;
-            texto += `${item.label}:\n  Dado inserido: ${dado}\n  Fator fixo: ${item.fator}\n  Carga Térmica: ${carga} kcal/h\n\n`;
+            const linha = `${item.label.padEnd(35)} | ${dado.padStart(13)} | ${String(item.fator).padStart(10)} | ${carga.padStart(20)}
+`;
+            texto += linha;
         });
+
+        texto += "
+
+";
         const total = document.getElementById("totalKcalh").textContent;
         const tr = document.getElementById("totalTR").textContent;
         texto += `TOTAL: ${total}  |  ${tr}\n\n`;
