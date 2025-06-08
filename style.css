@@ -1,7 +1,7 @@
-/* Corpo e estrutura */
+/* Estilo global da página com fundo verde institucional */
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f4f7f6;
+  background-color: #e6f4ea; /* Verde claro suave */
   margin: 0;
   padding: 20px;
   display: flex;
@@ -11,6 +11,7 @@ body {
   box-sizing: border-box;
 }
 
+/* Container central da calculadora */
 .container {
   background-color: #ffffff;
   padding: 30px;
@@ -21,19 +22,22 @@ body {
   box-sizing: border-box;
 }
 
+/* Título */
 h1 {
-  color: #0056b3;
+  color: #2e7d32; /* Verde escuro institucional */
   text-align: center;
   margin-bottom: 10px;
 }
 
+/* Subtítulo descritivo */
 .description {
   text-align: center;
-  color: #555;
+  color: #4d774e;
   margin-bottom: 30px;
   font-size: 1.1em;
 }
 
+/* Grade dos campos de entrada */
 .input-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -41,6 +45,7 @@ h1 {
   margin-bottom: 25px;
 }
 
+/* Grupo de input */
 .input-group {
   display: flex;
   flex-direction: column;
@@ -49,12 +54,12 @@ h1 {
 label {
   margin-bottom: 8px;
   font-weight: bold;
-  color: #333;
+  color: #2c3e50;
 }
 
 input[type="number"] {
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1em;
   width: 100%;
@@ -63,18 +68,19 @@ input[type="number"] {
 }
 
 input[type="number"]:focus {
-  border-color: #007bff;
+  border-color: #43a047; /* Verde médio */
   outline: none;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.25);
 }
 
 .error-input {
-  border-color: #dc3545 !important;
-  background-color: #f8d7da;
+  border-color: #c62828 !important;
+  background-color: #ffebee;
 }
 
+/* Botão de cálculo */
 button {
-  background-color: #007bff;
+  background-color: #43a047; /* Verde médio */
   color: white;
   padding: 15px 25px;
   border: none;
@@ -87,7 +93,7 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: #2e7d32; /* Verde escuro */
   transform: translateY(-2px);
 }
 
@@ -95,23 +101,26 @@ button:active {
   transform: translateY(0);
 }
 
+/* Seção dos resultados */
 .results-section {
   margin-top: 40px;
-  border-top: 2px solid #eee;
+  border-top: 2px solid #e0e0e0;
   padding-top: 30px;
 }
 
-.results-section h2, .results-section h3 {
-  color: #0056b3;
+.results-section h2,
+.results-section h3 {
+  color: #2e7d32;
   margin-bottom: 15px;
   text-align: center;
 }
 
+/* Itens de resultado */
 .result-item {
   display: flex;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px dashed #eee;
+  border-bottom: 1px dashed #ccc;
   font-size: 1.1em;
   color: #444;
 }
@@ -122,15 +131,16 @@ button:active {
 
 .result-value {
   font-weight: bold;
-  color: #007bff;
+  color: #388e3c;
 }
 
+/* Detalhamento de cargas individuais */
 .individual-loads-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 15px;
   margin-top: 20px;
-  background-color: #f9f9f9;
+  background-color: #f1f8e9; /* Verde muito claro */
   padding: 15px;
   border-radius: 8px;
 }
@@ -139,7 +149,7 @@ button:active {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px dotted #eee;
+  border-bottom: 1px dotted #ccc;
   font-size: 0.95em;
   color: #555;
 }
@@ -150,13 +160,14 @@ button:active {
 
 .individual-load-value {
   font-weight: bold;
-  color: #333;
+  color: #2e7d32;
 }
 
+/* Mensagens de erro */
 .error-messages {
-  color: #dc3545;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
+  color: #c62828;
+  background-color: #ffebee;
+  border: 1px solid #ef9a9a;
   border-radius: 5px;
   padding: 10px;
   margin-top: 20px;
@@ -164,7 +175,7 @@ button:active {
   text-align: center;
 }
 
-/* Responsividade */
+/* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
   .input-grid {
     grid-template-columns: 1fr;
