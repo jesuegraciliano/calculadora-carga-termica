@@ -61,12 +61,21 @@ document.addEventListener("DOMContentLoaded", function () {
         const tr = total / 3000;
         let trDisplay = document.getElementById("totalTR");
         if (!trDisplay) {
+            const trContainer = document.createElement("div");
+            trContainer.classList.add("results-section");
+
+            const trTitle = document.createElement("h2");
+            trTitle.textContent = "Equivalente em Toneladas de Refrigeração";
+            trContainer.appendChild(trTitle);
+
             trDisplay = document.createElement("div");
             trDisplay.id = "totalTR";
             trDisplay.classList.add("result-value");
-            document.querySelector(".results-section").appendChild(trDisplay);
+            trContainer.appendChild(trDisplay);
+
+            document.querySelector(".container").appendChild(trContainer);
         }
-        trDisplay.textContent = tr.toFixed(2) + " TR (Toneladas de Refrigeração)";
+        trDisplay.textContent = tr.toFixed(2) + " TR";
     }
 
     thermalData.forEach(createRow);
