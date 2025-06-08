@@ -123,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const total = document.getElementById("totalKcalh").textContent;
         const tr = document.getElementById("totalTR").textContent;
         texto += `TOTAL: ${total}  |  ${tr}\n\n`;
-        texto += "Observação: Os dados devem ser revisados in loco. Esta estimativa é válida para a região de Florianópolis, com paredes de 15cm de espessura. Para outras regiões e condições, procure um Técnico de Refrigeração.";
+        texto += "Observação: Os dados devem ser revisados in loco. Região de Florianópolis, Paredes de 15cm de espessura.";
 
         const doc = new jsPDF();
         doc.setFontSize(12);
