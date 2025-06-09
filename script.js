@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
     tableHead.innerHTML = `
       <th>Item de Carga Térmica</th>
       <th>Fator</th>
-      <th>Dado</th>
+      <th>Dados</th>
       <th>Carga Térmica (kcal/h)</th>
     `;
   }
