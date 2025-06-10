@@ -1,15 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
   const thermalData = [
-    { label: "Área de paredes ao SOL", fator: 43, id: "dado1" },
-    { label: "Área de paredes à sombra", fator: 18, id: "dado2" },
-    { label: "Área de janela ou porta de vidro ao sol", fator: 520, id: "dado3" },
-    { label: "Área de janela ou porta vidro ao sol com cortina", fator: 353, id: "dado4" },
-    { label: "Área de janela ou porta de vidro à sombra", fator: 42, id: "dado5" },
-    { label: "Área de cobertura", fator: 20, id: "dado6" },
-    { label: "Área de piso entre andares", fator: 10, id: "dado7" },
-    { label: "Número de pessoas", fator: 100, id: "dado8" },
-    { label: "Potência dos equipamentos", fator: 1, id: "dado9" },
-    { label: "Potência de iluminação", fator: 1, id: "dado10" },
+    { label: "Área de paredes ao SOL (m²)", fator: 43, id: "dado1" },
+    { label: "Área de paredes à sombra (m²)", fator: 18, id: "dado2" },
+    { label: "Área de janela/porta de vidro ao sol (m²)", fator: 520, id: "dado3" },
+    { label: "Área de janela/porta vidro ao sol com cortina (m²)", fator: 353, id: "dado4" },
+    { label: "Área de janela/porta de vidro à sombra (m²)", fator: 42, id: "dado5" },
+    { label: "Área de cobertura (m²)", fator: 20, id: "dado6" },
+    { label: "Área de piso entre andares (m²)", fator: 10, id: "dado7" },
+    { label: "Número de pessoas (quantidade)", fator: 100, id: "dado8" },
+    { label: "Potência dos equipamentos (Watts)", fator: 1, id: "dado9" },
+    { label: "Potência de iluminação (Watts)", fator: 1, id: "dado10" },
     { label: "Vazão de ar de renovação (m³/h)", fator: 8.2, id: "dado11" }
   ];
 
