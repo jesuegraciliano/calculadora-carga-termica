@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+
   const thermalData = [
     { label: "Área de paredes ao Sol (m²)", fator: 43, id: "dado1" },
     { label: "Área de paredes à sombra (m²)", fator: 18, id: "dado2" },
@@ -16,12 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
   const tableBody = document.getElementById("thermalBody");
   const tableHead = document.querySelector("thead tr");
 
-  // Corrige os títulos das colunas
+  // Passo 1: Alterar os títulos das colunas
   if (tableHead) {
     tableHead.innerHTML = `
       <th>Item de Carga Térmica</th>
-      <th>Fator</th>
       <th>Dados</th>
+      <th>Fator</th>
       <th>Carga Térmica (kcal/h)</th>
     `;
   }
@@ -50,9 +51,10 @@ document.addEventListener("DOMContentLoaded", function () {
     tdResultado.id = item.id + "_resultado";
     tdResultado.classList.add("output");
 
+    // Passo 2: Alterar a ordem de adição das células
     tr.appendChild(tdLabel);
-    tr.appendChild(tdFator);
-    tr.appendChild(tdInput);
+    tr.appendChild(tdInput); // Coluna de dados
+    tr.appendChild(tdFator);  // Coluna de fator
     tr.appendChild(tdResultado);
 
     tableBody.appendChild(tr);
