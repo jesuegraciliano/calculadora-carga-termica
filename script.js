@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const thermalData = [
-    { label: "Área de paredes ao SOL (m²)", fator: 43, id: "dado1" },
+    { label: "Área de paredes ao Sol (m²)", fator: 43, id: "dado1" },
     { label: "Área de paredes à sombra (m²)", fator: 18, id: "dado2" },
     { label: "Área de janela/porta de vidro ao sol (m²)", fator: 520, id: "dado3" },
     { label: "Área de janela/porta vidro ao sol com cortina (m²)", fator: 353, id: "dado4" },
