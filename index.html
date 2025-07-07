@@ -1,58 +1,44 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Calculadora de Carga Térmica</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Carga Térmica - Entrada</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
+    <div class="container">
+        <div class="logo-topo">
+            <img src="logo-ifsc.png" alt="Logotipo do IFSC" class="logo" />
+        </div>
 
-    <!-- Logotipo -->
-    <div class="logo-topo">
-      <img src="logo-ifsc.png" alt="Logotipo do IFSC" class="logo" />
+        <h1>Calculadora de Carga Térmica</h1>
+        <p class="description">
+            Insira os dados na coluna central. Os fatores fixos são estimativos.
+        </p>
+
+        <table class="thermal-table">
+            <thead>
+                <tr>
+                    <th>Item de Carga Térmica</th>
+                    <th>Dados</th>
+                    <th>Fator</th>
+                    <th>Carga Térmica (kcal/h)</th>
+                </tr>
+            </thead>
+            <tbody id="thermalBody">
+                </tbody>
+        </table>
+
+        <p class="note">
+            Elaborado por jesue@ifsc.edu.br<br />
+            Esta é uma estimativa válida para a região de Florianópolis. Paredes de 15 cm.
+            Para outras condições, consulte um Técnico de Refrigeração.
+        </p>
+
+        <button id="goToResults" class="action-button">Ver Resultados Detalhados</button>
     </div>
 
-    <!-- Título e instruções -->
-    <h1>Calculadora de Carga Térmica</h1>
-    <p class="description">
-      Insira os dados na coluna central. Os fatores fixos são estimativos. O resultado aparece na última coluna.
-    </p>
-
-    <!-- Tabela -->
-    <table class="thermal-table">
-      <thead>
-        <tr>
-          <th>Item de Carga Térmica</th>
-          <th>Dado</th>
-          <th>Fator</th>
-          <th>Carga Térmica (kcal/h)</th>
-        </tr>
-      </thead>
-      <tbody id="thermalBody">
-        <!-- Preenchido dinamicamente -->
-      </tbody>
-    </table>
-
-    <!-- Resultados -->
-    <div class="results-section">
-      <h2>Resultado Final</h2>
-      <div class="result-item" id="totalKcalh">0.00 kcal/h</div>
-      <div class="result-item" id="totalTR"></div>
-    </div>
-
-    <!-- Observação -->
-    <p class="note">
-      Elaborado por jesue@ifsc.edu.br<br />
-      Esta é uma estimativa válida para a região de Florianópolis. Paredes de 15 cm.
-      Para outras condições, consulte um Técnico de Refrigeração.
-    </p>
-
-    <!-- Botão PDF -->
-    <button onclick="window.print()" class="pdf-button">Gerar PDF</button>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
