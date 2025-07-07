@@ -1,100 +1,216 @@
-body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #28a745; /* Fundo verde */
-    margin: 0;
-    color: #333;
-}
+<style>
+    /* Fundo e container */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #1b5e20;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+    }
 
-.container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 100%;
-    max-width: 450px;
-}
+    .container {
+        background-color: #ffffff;
+        max-width: 1000px;
+        width: 100%;
+        margin: 30px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
 
-h1 {
-    color: #28a745;
-    margin-bottom: 20px;
-}
+    /* Logotipo */
+    .logo-topo {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    .logo-topo img.logo {
+        max-height: 80px;
+        height: auto;
+    }
 
-.disclaimer {
-    font-size: 0.9em;
-    color: #666;
-    margin-bottom: 20px;
-    text-align: left;
-    border-left: 3px solid #28a745;
-    padding-left: 10px;
-}
+    /* Título e descrição */
+    h1 {
+        text-align: center;
+        color: #2e7d32;
+        font-size: 1.8em;
+        margin: 0 0 10px;
+    }
 
-.disclaimer a {
-    color: #007bff;
-    text-decoration: none;
-}
+    .description {
+        text-align: center;
+        font-size: 1em;
+        color: #555;
+        margin-bottom: 30px;
+    }
 
-.disclaimer a:hover {
-    text-decoration: underline;
-}
+    /* Tabela */
+    .thermal-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+    }
 
-.input-group {
-    margin-bottom: 15px;
-    text-align: left;
-}
+    .thermal-table th,
+    .thermal-table td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
 
-.input-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
+    .thermal-table thead th {
+        background-color: #f0f0f0;
+    }
 
-.input-group input[type="number"],
-.input-group select {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    box-sizing: border-box;
-}
+    /* Colunas coloridas e largura */
+    .thermal-table tbody td:nth-child(2) { /* Coluna de Entrada de Dados (Dado) */
+        width: 15%; /* Reduzindo a largura */
+        background-color: #e0ffe0; /* Verde clarinho */
+    }
 
-button {
-    background-color: #28a745;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 18px;
-    transition: background-color 0.3s ease;
-    width: 100%;
-    margin-top: 15px;
-}
+    .thermal-table tbody td:nth-child(2) input { /* Input dentro da coluna de Dados */
+        width: 100%;
+        padding: 8px;
+        font-size: 1em;
+        background-color: #e0ffe0; /* Verde clarinho */
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        box-sizing: border-box;
+        text-align: center; /* Centralizar o texto dentro do input */
+    }
 
-button:hover {
-    background-color: #218838;
-}
+    .thermal-table tbody td:nth-child(3) { /* Coluna do Fator */
+        width: 10%; /* Ajuste de largura */
+        background-color: #fff59d;
+        font-weight: bold;
+        color: #555;
+    }
 
-.result {
-    margin-top: 25px;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-}
+    .thermal-table tbody td:nth-child(4) { /* Coluna da Carga Térmica (kcal/h) */
+        width: 20%; /* Ajuste de largura */
+        background-color: #81d4fa;
+        font-weight: bold;
+        color: #004d40;
+    }
 
-.result p {
-    margin: 0;
-    font-size: 1.1em;
-    color: #555;
-}
+    /* Resultados */
+    .results-section {
+        text-align: center;
+        margin-top: 30px;
+        border-top: 2px solid #e0e0e0;
+        padding-top: 20px;
+    }
 
-.result #suggestedModel {
-    font-weight: bold;
-    color: #28a745;
-}
+    .results-section h2 {
+        color: #2e7d32;
+        font-size: 1.4em;
+        margin: 0 0 10px; /* Ajuste para não ter muito espaço acima */
+    }
+
+    .result-item {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #1b5e20;
+        margin-bottom: 10px;
+    }
+
+    /* Gráfico */
+    .chart-section {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 2px solid #e0e0e0;
+    }
+
+    .chart-section h2 {
+        text-align: center;
+        color: #2e7d32;
+        font-size: 1.4em;
+        margin-bottom: 15px;
+    }
+
+    /* Nota */
+    .note {
+        font-size: 0.9em;
+        text-align: center;
+        color: #555;
+        margin-top: 30px;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    /* Botões de Ação */
+    .action-button {
+        display: block;
+        margin: 20px auto;
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1em;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .action-button:hover {
+        background-color: #1b5e20;
+    }
+
+    .buttons-section {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #e0e0e0;
+    }
+
+    .buttons-section .action-button {
+        margin: 0 10px;
+        width: 45%;
+    }
+
+    /* Seções escondidas */
+    .hidden {
+        display: none;
+    }
+
+    /* Mensagem para inserção de dados */
+    .input-instruction {
+        font-size: 0.9em;
+        color: #666;
+        text-align: center;
+        margin-bottom: 15px;
+        padding: 8px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+        .thermal-table th,
+        .thermal-table td {
+            font-size: 0.9em;
+            padding: 8px;
+        }
+        .buttons-section {
+            flex-direction: column;
+        }
+        .buttons-section .action-button {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        /* Ajuste para telas menores na tabela */
+        .thermal-table tbody td:nth-child(2) {
+            width: 25%; /* Mais largura em telas pequenas para o input */
+        }
+        .thermal-table tbody td:nth-child(3) {
+            width: 15%; /* Fator */
+        }
+        .thermal-table tbody td:nth-child(4) {
+            width: 25%; /* Carga Térmica */
+        }
+    }
+</style>
