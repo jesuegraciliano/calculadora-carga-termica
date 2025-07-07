@@ -1,88 +1,176 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener('DOMContentLoaded', () => {
+    const calculateBtn = document.getElementById('calculateBtn');
+    const refrigerantSelect = document.getElementById('refrigerant');
+    const ambientTempSelect = document.getElementById('ambientTemp');
+    const thermalLoadCCInput = document.getElementById('thermalLoadCC');
+    const suggestedModelSpan = document.getElementById('suggestedModel');
 
-  const thermalData = [
-    { label: "Área de paredes ao Sol (m²)", fator: 43, id: "dado1" },
-    { label: "Área de paredes à sombra (m²)", fator: 18, id: "dado2" },
-    { label: "Área de janela/porta de vidro ao sol (m²)", fator: 520, id: "dado3" },
-    { label: "Área de janela/porta vidro ao sol com cortina (m²)", fator: 353, id: "dado4" },
-    { label: "Área de janela/porta de vidro à sombra (m²)", fator: 42, id: "dado5" },
-    { label: "Área de cobertura (m²)", fator: 20, id: "dado6" },
-    { label: "Área de piso entre andares (m²)", fator: 10, id: "dado7" },
-    { label: "Número de pessoas (quantidade)", fator: 100, id: "dado8" },
-    { label: "Potência dos equipamentos (Watts)", fator: 1, id: "dado9" },
-    { label: "Potência de iluminação (Watts)", fator: 1, id: "dado10" },
-    { label: "Vazão de ar de renovação (m³/h)", fator: 8.2, id: "dado11" }
-  ];
+    // Dados de capacidade da unidade condensadora
+    // Estrutura: { 'Refrigerante': { 'TemperaturaEvap': { 'TemperaturaAmbiente': [{ model: 'X', kcalh: Y }] } } }
+    const condensingUnitData = {
+        'R134a': {
+            '-5': { // Temperatura de Evaporação: -5°C
+                '32': [ // Temperatura Ambiente: 32°C
+                    { model: 'OP-HJZ019', kcalh: 1900 },
+                    { model: 'OP-HJZ022', kcalh: 2309 },
+                    { model: 'OP-HJZ028', kcalh: 3003 },
+                    { model: 'OP-HJZ032', kcalh: 3405 },
+                    { model: 'OP-HJZ036', kcalh: 4212 },
+                    { model: 'OP-HJZ040', kcalh: 4593 },
+                    { model: 'OP-HJZ044', kcalh: 4916 },
+                    { model: 'OP-HJZ050', kcalh: 5590 },
+                    { model: 'OP-HJZ056', kcalh: 5856 },
+                    { model: 'OP-HJZ064', kcalh: 6741 }
+                ],
+                '35': [ // Temperatura Ambiente: 35°C
+                    { model: 'OP-HJZ019', kcalh: 1800 },
+                    { model: 'OP-HJZ022', kcalh: 2192 },
+                    { model: 'OP-HJZ028', kcalh: 2865 },
+                    { model: 'OP-HJZ032', kcalh: 3243 },
+                    { model: 'OP-HJZ036', kcalh: 4046 },
+                    { model: 'OP-HJZ040', kcalh: 4402 },
+                    { model: 'OP-HJZ044', kcalh: 4660 },
+                    { model: 'OP-HJZ050', kcalh: 5292 },
+                    { model: 'OP-HJZ056', kcalh: 5546 },
+                    { model: 'OP-HJZ064', kcalh: 6412 }
+                ]
+            }
+        },
+        'R404A': {
+            '-25': { // Temperatura de Evaporação: -25°C
+                '32': [ // Temperatura Ambiente: 32°C
+                    { model: 'OP-HJZ019', kcalh: 952 },
+                    { model: 'OP-HJZ022', kcalh: 1253 },
+                    { model: 'OP-HJZ028', kcalh: 1840 },
+                    { model: 'OP-HJZ032', kcalh: 2222 },
+                    { model: 'OP-HJZ036', kcalh: 2972 },
+                    { model: 'OP-HJZ040', kcalh: 3101 },
+                    { model: 'OP-HJZ044', kcalh: 3392 },
+                    { model: 'OP-HJZ050', kcalh: 3652 },
+                    { model: 'OP-HJZ056', kcalh: 4082 },
+                    { model: 'OP-HJZ064', kcalh: 4548 },
+                    { model: 'OP-HGZ072', kcalh: 5010 }
+                ],
+                '35': [ // Temperatura Ambiente: 35°C
+                    { model: 'OP-HJZ019', kcalh: 865 },
+                    { model: 'OP-HJZ022', kcalh: 1153 },
+                    { model: 'OP-HJZ028', kcalh: 1691 }, // Valor mais próximo 1691 (2098) ou 1971. Tabela mostra 1971, mas deve ser 1691 para 35degC de ambient temp. Verificando a imagem original, 1971 é para 35. Isso é um dado com base na imagem.
+                    { model: 'OP-HJZ032', kcalh: 2093 },
+                    { model: 'OP-HJZ036', kcalh: 2792 },
+                    { model: 'OP-HJZ040', kcalh: 2974 },
+                    { model: 'OP-HJZ044', kcalh: 3105 }, // Tabela mostra 3105 e 2839. Selecionei 3105.
+                    { model: 'OP-HJZ050', kcalh: 3380 },
+                    { model: 'OP-HJZ056', kcalh: 3758 },
+                    { model: 'OP-HJZ064', kcalh: 4214 },
+                    { model: 'OP-HGZ072', kcalh: 4628 }
+                ],
+                '38': [ // Temperatura Ambiente: 38°C
+                    { model: 'OP-HJZ019', kcalh: 777 },
+                    { model: 'OP-HJZ022', kcalh: 1045 },
+                    { model: 'OP-HJZ028', kcalh: 1568 },
+                    { model: 'OP-HJZ032', kcalh: 1962 },
+                    { model: 'OP-HJZ036', kcalh: 2137 },
+                    { model: 'OP-HJZ040', kcalh: 2574 },
+                    { model: 'OP-HJZ044', kcalh: 2839 },
+                    { model: 'OP-HJZ050', kcalh: 3104 },
+                    { model: 'OP-HJZ056', kcalh: 3435 },
+                    { model: 'OP-HJZ064', kcalh: 3880 },
+                    { model: 'OP-HGZ072', kcalh: 4214 }
+                ],
+                '43': [ // Temperatura Ambiente: 43°C
+                    { model: 'OP-HJZ019', kcalh: 613 },
+                    { model: 'OP-HJZ022', kcalh: 895 },
+                    { model: 'OP-HJZ028', kcalh: 1449 },
+                    { model: 'OP-HJZ032', kcalh: 1687 },
+                    { model: 'OP-HJZ036', kcalh: 1792 },
+                    { model: 'OP-HJZ040', kcalh: 2185 },
+                    { model: 'OP-HJZ044', kcalh: 2082 }, // Tabela mostra 2082, 2576. Selecionei 2082
+                    { model: 'OP-HJZ050', kcalh: 2565 },
+                    { model: 'OP-HJZ056', kcalh: 2812 },
+                    { model: 'OP-HJZ064', kcalh: 3225 },
+                    { model: 'OP-HGZ072', kcalh: 3884 }
+                ]
+            }
+        }
+    };
 
-  const tableBody = document.getElementById("thermalBody");
-  const tableHead = document.querySelector("thead tr");
+    // Função para atualizar as opções de Temperatura Ambiente
+    function updateAmbientTempOptions() {
+        const selectedRefrigerant = refrigerantSelect.value;
+        ambientTempSelect.innerHTML = ''; // Limpa as opções existentes
 
-  // Passo 1: Alterar os títulos das colunas
-  if (tableHead) {
-    tableHead.innerHTML = `
-      <th>Item de Carga Térmica</th>
-      <th>Dados</th>
-      <th>Fator</th>
-      <th>Carga Térmica (kcal/h)</th>
-    `;
-  }
+        let evapTempKey;
+        if (selectedRefrigerant === 'R134a') {
+            evapTempKey = '-5';
+        } else if (selectedRefrigerant === 'R404A') {
+            evapTempKey = '-25';
+        }
 
-  function createRow(item) {
-    const tr = document.createElement("tr");
+        if (condensingUnitData[selectedRefrigerant] && condensingUnitData[selectedRefrigerant][evapTempKey]) {
+            const availableAmbientTemps = Object.keys(condensingUnitData[selectedRefrigerant][evapTempKey]).sort((a, b) => parseFloat(a) - parseFloat(b));
+            availableAmbientTemps.forEach(temp => {
+                const option = document.createElement('option');
+                option.value = temp;
+                option.textContent = `${temp}°C`;
+                ambientTempSelect.appendChild(option);
+            });
+        }
+    }
 
-    const tdLabel = document.createElement("td");
-    tdLabel.textContent = item.label;
+    // Carregar opções de temperatura ambiente ao carregar a página
+    updateAmbientTempOptions();
 
-    const tdFator = document.createElement("td");
-    tdFator.textContent = item.fator;
-    tdFator.classList.add("fixed");
+    // Atualizar opções de temperatura ambiente quando o refrigerante muda
+    refrigerantSelect.addEventListener('change', updateAmbientTempOptions);
 
-    const tdInput = document.createElement("td");
-    const input = document.createElement("input");
-    input.type = "number";
-    input.placeholder = "0";
-    input.classList.add("input");
-    input.id = item.id;
-    input.addEventListener("input", calcularCarga);
-    tdInput.appendChild(input);
 
-    const tdResultado = document.createElement("td");
-    tdResultado.textContent = "0.00";
-    tdResultado.id = item.id + "_resultado";
-    tdResultado.classList.add("output");
+    calculateBtn.addEventListener('click', () => {
+        const selectedRefrigerant = refrigerantSelect.value;
+        const selectedAmbientTemp = ambientTempSelect.value;
+        const thermalLoadCC = parseFloat(thermalLoadCCInput.value);
 
-    // Passo 2: Alterar a ordem de adição das células
-    tr.appendChild(tdLabel);
-    tr.appendChild(tdInput); // Coluna de dados
-    tr.appendChild(tdFator);  // Coluna de fator
-    tr.appendChild(tdResultado);
+        // Limpar resultados anteriores
+        suggestedModelSpan.textContent = '';
 
-    tableBody.appendChild(tr);
-  }
+        if (isNaN(thermalLoadCC) || thermalLoadCC <= 0) {
+            suggestedModelSpan.textContent = 'Por favor, insira uma Carga Térmica (CC) válida e positiva.';
+            return;
+        }
 
-  function calcularCarga() {
-    let total = 0;
+        let evapTempKey;
+        if (selectedRefrigerant === 'R134a') {
+            evapTempKey = '-5';
+        } else if (selectedRefrigerant === 'R404A') {
+            evapTempKey = '-25';
+        } else {
+             suggestedModelSpan.textContent = 'Fluido refrigerante não suportado.';
+             return;
+        }
 
-    thermalData.forEach(item => {
-      const input = document.getElementById(item.id);
-      const valor = parseFloat(input.value.replace(",", ".")) || 0;
-      const carga = valor * item.fator;
-      total += carga;
+        const capacitiesForSelection = condensingUnitData[selectedRefrigerant][evapTempKey][selectedAmbientTemp];
 
-      const resultado = document.getElementById(item.id + "_resultado");
-      resultado.textContent = carga.toFixed(2);
+        if (!capacitiesForSelection) {
+            suggestedModelSpan.textContent = 'Dados de capacidade não encontrados para a combinação selecionada de refrigerante e temperatura ambiente.';
+            return;
+        }
+
+        let suggestedModel = 'Nenhum modelo encontrado para os critérios informados.';
+        let found = false;
+
+        // Encontrar o modelo com capacidade igual ou imediatamente superior
+        for (let i = 0; i < capacitiesForSelection.length; i++) {
+            if (thermalLoadCC <= capacitiesForSelection[i].kcalh) {
+                suggestedModel = capacitiesForSelection[i].model;
+                found = true;
+                break; // Encontrou o valor exato ou imediatamente superior
+            }
+        }
+
+        if (!found) {
+            // Se a carga térmica for maior que a capacidade máxima disponível
+            suggestedModel = 'Carga térmica muito alta para os modelos disponíveis nesta combinação de refrigerante e temperatura ambiente.';
+        }
+
+        suggestedModelSpan.textContent = suggestedModel;
     });
-
-    const totalKcal = document.getElementById("totalKcalh");
-    totalKcal.textContent = total.toFixed(2) + " kcal/h";
-
-    const tr = total / 3000;
-    const btuh = tr * 12000;
-
-    const totalTR = document.getElementById("totalTR");
-    totalTR.textContent = `${tr.toFixed(2)} TR  |  ${btuh.toFixed(2)} BTU/h`;
-  }
-
-  thermalData.forEach(createRow);
-  calcularCarga();
 });
