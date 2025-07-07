@@ -1,522 +1,216 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calculadora de Carga Térmica</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        /* Fundo e container */
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1b5e20;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
+<style>
+    /* Fundo e container */
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #1b5e20;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+    }
 
-        .container {
-            background-color: #ffffff;
-            max-width: 1000px;
-            width: 100%;
-            margin: 30px;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
+    .container {
+        background-color: #ffffff;
+        max-width: 1000px;
+        width: 100%;
+        margin: 30px;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
 
-        /* Logotipo */
-        .logo-topo {
-            text-align: center;
-            margin-bottom: 15px;
-        }
-        .logo-topo img.logo {
-            max-height: 80px;
-            height: auto;
-        }
+    /* Logotipo */
+    .logo-topo {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    .logo-topo img.logo {
+        max-height: 80px;
+        height: auto;
+    }
 
-        /* Título e descrição */
-        h1 {
-            text-align: center;
-            color: #2e7d32;
-            font-size: 1.8em;
-            margin: 0 0 10px;
-        }
+    /* Título e descrição */
+    h1 {
+        text-align: center;
+        color: #2e7d32;
+        font-size: 1.8em;
+        margin: 0 0 10px;
+    }
 
-        .description {
-            text-align: center;
-            font-size: 1em;
-            color: #555;
-            margin-bottom: 30px;
-        }
+    .description {
+        text-align: center;
+        font-size: 1em;
+        color: #555;
+        margin-bottom: 30px;
+    }
 
-        /* Tabela */
-        .thermal-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
+    /* Tabela */
+    .thermal-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 30px;
+    }
 
+    .thermal-table th,
+    .thermal-table td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+
+    .thermal-table thead th {
+        background-color: #f0f0f0;
+    }
+
+    /* Colunas coloridas e largura */
+    .thermal-table tbody td:nth-child(2) { /* Coluna de Entrada de Dados (Dado) */
+        width: 15%; /* Reduzindo a largura */
+        background-color: #e0ffe0; /* Verde clarinho */
+    }
+
+    .thermal-table tbody td:nth-child(2) input { /* Input dentro da coluna de Dados */
+        width: 100%;
+        padding: 8px;
+        font-size: 1em;
+        background-color: #e0ffe0; /* Verde clarinho */
+        border: 1px solid #bbb;
+        border-radius: 6px;
+        box-sizing: border-box;
+        text-align: center; /* Centralizar o texto dentro do input */
+    }
+
+    .thermal-table tbody td:nth-child(3) { /* Coluna do Fator */
+        width: 10%; /* Ajuste de largura */
+        background-color: #fff59d;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .thermal-table tbody td:nth-child(4) { /* Coluna da Carga Térmica (kcal/h) */
+        width: 20%; /* Ajuste de largura */
+        background-color: #81d4fa;
+        font-weight: bold;
+        color: #004d40;
+    }
+
+    /* Resultados */
+    .results-section {
+        text-align: center;
+        margin-top: 30px;
+        border-top: 2px solid #e0e0e0;
+        padding-top: 20px;
+    }
+
+    .results-section h2 {
+        color: #2e7d32;
+        font-size: 1.4em;
+        margin: 0 0 10px; /* Ajuste para não ter muito espaço acima */
+    }
+
+    .result-item {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #1b5e20;
+        margin-bottom: 10px;
+    }
+
+    /* Gráfico */
+    .chart-section {
+        margin-top: 40px;
+        padding-top: 20px;
+        border-top: 2px solid #e0e0e0;
+    }
+
+    .chart-section h2 {
+        text-align: center;
+        color: #2e7d32;
+        font-size: 1.4em;
+        margin-bottom: 15px;
+    }
+
+    /* Nota */
+    .note {
+        font-size: 0.9em;
+        text-align: center;
+        color: #555;
+        margin-top: 30px;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    /* Botões de Ação */
+    .action-button {
+        display: block;
+        margin: 20px auto;
+        background-color: #2e7d32;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 1em;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .action-button:hover {
+        background-color: #1b5e20;
+    }
+
+    .buttons-section {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid #e0e0e0;
+    }
+
+    .buttons-section .action-button {
+        margin: 0 10px;
+        width: 45%;
+    }
+
+    /* Seções escondidas */
+    .hidden {
+        display: none;
+    }
+
+    /* Mensagem para inserção de dados */
+    .input-instruction {
+        font-size: 0.9em;
+        color: #666;
+        text-align: center;
+        margin-bottom: 15px;
+        padding: 8px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
         .thermal-table th,
         .thermal-table td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-
-        .thermal-table thead th {
-            background-color: #f0f0f0;
-        }
-
-        /* Colunas coloridas (apenas para a página de entrada) */
-        .input input {
-            width: 100%;
-            padding: 8px;
-            font-size: 1em;
-            background-color: #c8e6c9;
-            border: 1px solid #bbb;
-            border-radius: 6px;
-            box-sizing: border-box;
-        }
-
-        /* Fatores fixos na página de entrada */
-        .thermal-table tbody td:nth-child(3) { /* Coluna do Fator */
-            background-color: #fff59d;
-            font-weight: bold;
-            color: #555;
-        }
-
-        /* Coluna de carga térmica na página de entrada */
-        .thermal-table tbody td:nth-child(4) { /* Coluna da Carga Térmica (kcal/h) */
-            background-color: #81d4fa;
-            font-weight: bold;
-            color: #004d40;
-        }
-
-        /* Resultados */
-        .results-section {
-            text-align: center;
-            margin-top: 30px;
-            border-top: 2px solid #e0e0e0;
-            padding-top: 20px;
-        }
-
-        .results-section h2 {
-            color: #2e7d32;
-            font-size: 1.4em;
-            margin-bottom: 10px;
-        }
-
-        .result-item {
-            font-size: 1.2em;
-            font-weight: bold;
-            color: #1b5e20;
-            margin-bottom: 10px;
-        }
-
-        /* Gráfico */
-        .chart-section {
-            margin-top: 40px;
-            padding-top: 20px;
-            border-top: 2px solid #e0e0e0;
-        }
-
-        .chart-section h2 {
-            text-align: center;
-            color: #2e7d32;
-            font-size: 1.4em;
-            margin-bottom: 15px;
-        }
-
-        /* Nota */
-        .note {
             font-size: 0.9em;
-            text-align: center;
-            color: #555;
-            margin-top: 30px;
-            white-space: normal;
-            word-wrap: break-word;
+            padding: 8px;
         }
-
-        /* Botões de Ação */
-        .action-button {
-            display: block;
-            margin: 20px auto;
-            background-color: #2e7d32;
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            font-size: 1em;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .action-button:hover {
-            background-color: #1b5e20;
-        }
-
         .buttons-section {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 2px solid #e0e0e0;
+            flex-direction: column;
         }
-
         .buttons-section .action-button {
-            margin: 0 10px;
-            width: 45%;
+            width: 100%;
+            margin-bottom: 10px;
         }
-
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .thermal-table th,
-            .thermal-table td {
-                font-size: 0.9em;
-                padding: 8px;
-            }
-            .buttons-section {
-                flex-direction: column;
-            }
-            .buttons-section .action-button {
-                width: 100%;
-                margin-bottom: 10px;
-            }
+        /* Ajuste para telas menores na tabela */
+        .thermal-table tbody td:nth-child(2) {
+            width: 25%; /* Mais largura em telas pequenas para o input */
         }
-
-        /* Seções escondidas */
-        .hidden {
-            display: none;
+        .thermal-table tbody td:nth-child(3) {
+            width: 15%; /* Fator */
         }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <div class="logo-topo">
-            <img src="logo-ifsc.png" alt="Logotipo do IFSC" class="logo" />
-        </div>
-
-        <div id="inputSection">
-            <h1>Calculadora de Carga Térmica</h1>
-            <p class="description">
-                Insira os dados na coluna central. Os fatores fixos são estimativos. O resultado aparece na última coluna.
-            </p>
-
-            <table class="thermal-table">
-                <thead>
-                    <tr>
-                        <th>Item de Carga Térmica</th>
-                        <th>Dado</th>
-                        <th>Fator</th>
-                        <th>Carga Térmica (kcal/h)</th>
-                    </tr>
-                </thead>
-                <tbody id="thermalBody">
-                    </tbody>
-            </table>
-
-            <div class="results-section">
-                <h2>Resultado Final Instantâneo</h2>
-                <div class="result-item" id="totalKcalhInstant">0.00 kcal/h</div>
-                <div class="result-item" id="totalTRInstant"></div>
-            </div>
-
-            <p class="note">
-                Elaborado por jesue@ifsc.edu.br<br />
-                Esta é uma estimativa válida para a região de Florianópolis. Paredes de 15 cm.
-                Para outras condições, consulte um Técnico de Refrigeração.
-            </p>
-
-            <button id="goToResults" class="action-button">Ver Resultados Detalhados</button>
-        </div>
-
-        <div id="resultsSection" class="hidden">
-            <h1>Resultados Detalhados da Carga Térmica</h1>
-
-            <table class="thermal-table results-table">
-                <thead>
-                    <tr>
-                        <th>Item de Carga Térmica</th>
-                        <th>Dado Informado</th>
-                        <th>Fator Utilizado</th>
-                        <th>Carga Térmica (kcal/h)</th>
-                    </tr>
-                </thead>
-                <tbody id="resultsBody">
-                    </tbody>
-            </table>
-
-            <div class="results-section">
-                <h2>Resultado Final</h2>
-                <div class="result-item" id="totalKcalhFinal">0.00 kcal/h</div>
-                <div class="result-item" id="totalTRFinal"></div>
-            </div>
-
-            <div class="chart-section">
-                <h2>Distribuição da Carga Térmica</h2>
-                <canvas id="thermalChart"></canvas>
-            </div>
-
-            <p class="note">
-                Elaborado por jesue@ifsc.edu.br<br />
-                Esta é uma estimativa válida para a região de Florianópolis. Paredes de 15 cm.
-                Para outras condições, consulte um Técnico de Refrigeração.
-            </p>
-
-            <div class="buttons-section">
-                <button id="backToInput" class="action-button back-button">Voltar à Entrada</button>
-                <button onclick="window.print()" class="action-button pdf-button">Gerar PDF</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const thermalDataConfig = [
-                { label: "Área de paredes ao Sol (m²)", fator: 43, id: "dado1" },
-                { label: "Área de paredes à sombra (m²)", fator: 18, id: "dado2" },
-                { label: "Área de janela/porta de vidro ao sol (m²)", fator: 520, id: "dado3" },
-                { label: "Área de janela/porta vidro ao sol com cortina (m²)", fator: 353, id: "dado4" },
-                { label: "Área de janela/porta de vidro à sombra (m²)", fator: 42, id: "dado5" },
-                { label: "Área de cobertura (m²)", fator: 20, id: "dado6" },
-                { label: "Área de piso entre andares (m²)", fator: 10, id: "dado7" },
-                { label: "Número de pessoas (quantidade)", fator: 100, id: "dado8" },
-                { label: "Potência dos equipamentos (Watts)", fator: 0.86, id: "dado9" }, // Fator W para kcal/h (1W = 0.86 kcal/h)
-                { label: "Potência de iluminação (Watts)", fator: 0.86, id: "dado10" }, // Fator W para kcal/h (1W = 0.86 kcal/h)
-                { label: "Vazão de ar de renovação (m³/h)", fator: 8.2, id: "dado11" }
-            ];
-
-            // Elementos das seções
-            const inputSection = document.getElementById('inputSection');
-            const resultsSection = document.getElementById('resultsSection');
-
-            // Elementos da seção de entrada
-            const tableBodyInput = document.getElementById("thermalBody");
-            const totalKcalhInstant = document.getElementById("totalKcalhInstant");
-            const totalTRInstant = document.getElementById("totalTRInstant");
-            const goToResultsButton = document.getElementById("goToResults");
-
-            // Elementos da seção de resultados
-            const resultsBody = document.getElementById("resultsBody");
-            const totalKcalhFinal = document.getElementById("totalKcalhFinal");
-            const totalTRFinal = document.getElementById("totalTRFinal");
-            const thermalChartCanvas = document.getElementById('thermalChart');
-            let myChart = null; // Para armazenar a instância do gráfico
-            const backToInputButton = document.getElementById('backToInput');
-
-            // --- Lógica para a Seção de Entrada (Input Section) ---
-            function setupInputSection() {
-                // Limpar o corpo da tabela antes de preencher
-                tableBodyInput.innerHTML = '';
-
-                thermalDataConfig.forEach(item => {
-                    const tr = document.createElement("tr");
-
-                    const tdLabel = document.createElement("td");
-                    tdLabel.textContent = item.label;
-
-                    const tdInput = document.createElement("td");
-                    const input = document.createElement("input");
-                    input.type = "number";
-                    input.placeholder = "0";
-                    input.classList.add("input");
-                    input.id = item.id;
-                    input.addEventListener("input", calculateInstantCarga);
-                    tdInput.appendChild(input);
-
-                    const tdFator = document.createElement("td");
-                    tdFator.textContent = item.fator.toFixed(2);
-                    tdFator.classList.add("fixed");
-
-                    const tdResultado = document.createElement("td");
-                    tdResultado.textContent = "0.00";
-                    tdResultado.id = item.id + "_resultado";
-                    tdResultado.classList.add("output");
-
-                    tr.appendChild(tdLabel);
-                    tr.appendChild(tdInput);
-                    tr.appendChild(tdFator);
-                    tr.appendChild(tdResultado);
-
-                    tableBodyInput.appendChild(tr);
-                });
-
-                // Tenta carregar dados do localStorage se existirem
-                const savedInputs = JSON.parse(localStorage.getItem("thermalCalcInputs"));
-                if (savedInputs) {
-                    thermalDataConfig.forEach(item => {
-                        const input = document.getElementById(item.id);
-                        if (input && savedInputs[item.id] !== undefined) {
-                            input.value = savedInputs[item.id];
-                        }
-                    });
-                }
-                calculateInstantCarga(); // Calcula com os valores carregados ou 0
-            }
-
-            // Função para calcular e exibir a carga térmica instantânea na seção de entrada
-            function calculateInstantCarga() {
-                let currentTotal = 0;
-                thermalDataConfig.forEach(item => {
-                    const input = document.getElementById(item.id);
-                    const valor = parseFloat(input.value.replace(",", ".")) || 0;
-                    const carga = valor * item.fator;
-                    currentTotal += carga;
-
-                    const resultado = document.getElementById(item.id + "_resultado");
-                    if (resultado) resultado.textContent = carga.toFixed(2);
-                });
-
-                if (totalKcalhInstant) totalKcalhInstant.textContent = currentTotal.toFixed(2) + " kcal/h";
-                const trInstant = currentTotal / 3000;
-                const btuhInstant = trInstant * 12000;
-                if (totalTRInstant) totalTRInstant.textContent = `${trInstant.toFixed(2)} TR | ${btuhInstant.toFixed(2)} BTU/h`;
-            }
-
-            // Event listener para o botão "Ver Resultados Detalhados"
-            if (goToResultsButton) {
-                goToResultsButton.addEventListener("click", () => {
-                    const inputValues = {};
-                    thermalDataConfig.forEach(item => {
-                        const input = document.getElementById(item.id);
-                        inputValues[item.id] = parseFloat(input.value.replace(",", ".")) || 0;
-                    });
-                    localStorage.setItem("thermalCalcInputs", JSON.stringify(inputValues)); // Salva os dados
-                    showSection('results'); // Mostra a seção de resultados
-                });
-            }
-
-            // --- Lógica para a Seção de Resultados (Results Section) ---
-            function displayResultsSection() {
-                const savedInputs = JSON.parse(localStorage.getItem("thermalCalcInputs"));
-                if (!savedInputs) {
-                    // Se não houver dados, volta para a entrada
-                    showSection('input');
-                    return;
-                }
-
-                let totalCargaKcalh = 0;
-                const chartLabels = [];
-                const chartDataValues = [];
-                const backgroundColors = [];
-                const borderColors = [];
-
-                resultsBody.innerHTML = ''; // Limpa o corpo da tabela de resultados
-
-                thermalDataConfig.forEach((item, index) => {
-                    const inputValue = savedInputs[item.id] || 0;
-                    const itemCarga = inputValue * item.fator;
-                    totalCargaKcalh += itemCarga;
-
-                    // Adiciona dados para o gráfico (apenas se a carga for maior que 0)
-                    if (itemCarga > 0) {
-                        chartLabels.push(item.label);
-                        chartDataValues.push(itemCarga.toFixed(2));
-                        const hue = (index * 137) % 360;
-                        backgroundColors.push(`hsl(${hue}, 70%, 70%)`);
-                        borderColors.push(`hsl(${hue}, 70%, 50%)`);
-                    }
-
-                    // Cria a linha da tabela de resultados detalhados
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td>${item.label}</td>
-                        <td>${inputValue.toFixed(2)}</td>
-                        <td>${item.fator.toFixed(2)}</td>
-                        <td>${itemCarga.toFixed(2)}</td>
-                    `;
-                    resultsBody.appendChild(tr);
-                });
-
-                // Exibe os totais finais
-                if (totalKcalhFinal) totalKcalhFinal.textContent = totalCargaKcalh.toFixed(2) + " kcal/h";
-                const totalTRFinalValue = totalCargaKcalh / 3000;
-                const totalBTUhFinalValue = totalTRFinalValue * 12000;
-                if (totalTRFinal) totalTRFinal.textContent = `${totalTRFinalValue.toFixed(2)} TR | ${totalBTUhFinalValue.toFixed(2)} BTU/h`;
-
-                // Renderiza o gráfico de barras
-                if (thermalChartCanvas) {
-                    // Destruir o gráfico antigo se existir
-                    if (myChart) {
-                        myChart.destroy();
-                    }
-                    myChart = new Chart(thermalChartCanvas, {
-                        type: 'bar',
-                        data: {
-                            labels: chartLabels,
-                            datasets: [{
-                                label: 'Carga Térmica por Item (kcal/h)',
-                                data: chartDataValues,
-                                backgroundColor: backgroundColors,
-                                borderColor: borderColors,
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: 'Carga Térmica (kcal/h)'
-                                    }
-                                },
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Item de Carga'
-                                    }
-                                }
-                            },
-                            plugins: {
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            let label = context.dataset.label || '';
-                                            if (label) {
-                                                label += ': ';
-                                            }
-                                            if (context.parsed.y !== null) {
-                                                label += new Intl.NumberFormat('pt-BR', { style: 'decimal' }).format(context.parsed.y) + ' kcal/h';
-                                            }
-                                            return label;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-            }
-
-            // Event listener para o botão "Voltar à Entrada"
-            if (backToInputButton) {
-                backToInputButton.addEventListener('click', () => {
-                    showSection('input'); // Mostra a seção de entrada
-                });
-            }
-
-            // --- Gerenciamento de Seções ---
-            function showSection(sectionName) {
-                if (sectionName === 'input') {
-                    inputSection.classList.remove('hidden');
-                    resultsSection.classList.add('hidden');
-                    setupInputSection(); // Re-popula a seção de entrada com dados salvos
-                } else if (sectionName === 'results') {
-                    inputSection.classList.add('hidden');
-                    resultsSection.classList.remove('hidden');
-                    displayResultsSection(); // Popula e mostra a seção de resultados
-                }
-            }
-
-            // Inicia mostrando a seção de entrada
-            showSection('input');
-        });
-    </script>
-</body>
-</html>
+        .thermal-table tbody td:nth-child(4) {
+            width: 25%; /* Carga Térmica */
+        }
+    }
+</style>
