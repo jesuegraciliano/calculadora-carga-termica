@@ -1,145 +1,100 @@
-/* Fundo e container */
 body {
-  margin: 0;
-  padding: 0;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #1b5e20;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  min-height: 100vh;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #28a745; /* Fundo verde */
+    margin: 0;
+    color: #333;
 }
 
 .container {
-  background-color: #ffffff;
-  max-width: 1000px;
-  width: 100%;
-  margin: 30px;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
 }
 
-/* Logotipo */
-.logo-topo {
-  text-align: center;
-  margin-bottom: 15px;
-}
-.logo-topo img.logo {
-  max-height: 80px;
-  height: auto;
-}
-
-/* Título e descrição */
 h1 {
-  text-align: center;
-  color: #2e7d32;
-  font-size: 1.8em;
-  margin: 0 0 10px;
+    color: #28a745;
+    margin-bottom: 20px;
 }
 
-.description {
-  text-align: center;
-  font-size: 1em;
-  color: #555;
-  margin-bottom: 30px;
-}
-
-/* Tabela */
-.thermal-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 30px;
-}
-
-.thermal-table th,
-.thermal-table td {
-  padding: 10px;
-  border: 1px solid #ccc;
-  text-align: center;
-}
-
-.thermal-table thead th {
-  background-color: #f0f0f0;
-}
-
-/* Colunas coloridas */
-.input input {
-  width: 100%;
-  padding: 8px;
-  font-size: 1em;
-  background-color: #c8e6c9;
-  border: 1px solid #bbb;
-  border-radius: 6px;
-  box-sizing: border-box;
-}
-
-.fixed {
-  background-color: #fff59d;
-  font-weight: bold;
-  color: #555;
-}
-
-.output {
-  background-color: #81d4fa;
-  font-weight: bold;
-  color: #004d40;
-}
-
-/* Resultados */
-.results-section {
-  text-align: center;
-  margin-top: 30px;
-  border-top: 2px solid #e0e0e0;
-  padding-top: 20px;
-}
-
-.results-section h2 {
-  color: #2e7d32;
-  font-size: 1.4em;
-  margin-bottom: 10px;
-}
-
-.result-item {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: #1b5e20;
-  margin-bottom: 10px;
-}
-
-/* Nota */
-.note {
-  font-size: 0.9em;
-  text-align: center;
-  color: #555;
-  margin-top: 30px;
-  white-space: normal;
-  word-wrap: break-word;
-}
-
-/* Botão PDF */
-.pdf-button {
-  display: block;
-  margin: 20px auto;
-  background-color: #2e7d32;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  font-size: 1em;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.pdf-button:hover {
-  background-color: #1b5e20;
-}
-
-/* Responsivo */
-@media (max-width: 768px) {
-  .thermal-table th,
-  .thermal-table td {
+.disclaimer {
     font-size: 0.9em;
-    padding: 8px;
-  }
+    color: #666;
+    margin-bottom: 20px;
+    text-align: left;
+    border-left: 3px solid #28a745;
+    padding-left: 10px;
+}
+
+.disclaimer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.disclaimer a:hover {
+    text-decoration: underline;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input[type="number"],
+.input-group select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.result {
+    margin-top: 25px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+}
+
+.result p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.result #suggestedModel {
+    font-weight: bold;
+    color: #28a745;
 }
