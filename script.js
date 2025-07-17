@@ -2,38 +2,87 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // 1. Constantes com os valores ajustados conforme a imagem.
-    // HEAT_GAIN_FACTORS agora corresponde à coluna "Fator Fixo".
+    // HEAT_GAIN_FACTORS agora corresponde à coluna "Fator".
+    // Os fatores para cada categoria foram extraídos diretamente da imagem fornecida.
     const HEAT_GAIN_FACTORS = {
-        "area_paredes_sol": 43,
-        "area_paredes_sombra": 18,
-        "area_janela_vidro_sol": 16,
-        "area_janela_vidro_sol_cortina": 12,
-        "area_janela_vidro_sombra": 0,
-        "area_cobertura": 229,
-        "area_piso_entre_andares": 0,
-        "numero_pessoas": 13,
-        "potencia_equipamentos": 1, 
-        "potencia_iluminacao": 1,
-        "vazao_ar_renovacao": 357
+        // 1. JANELAS
+        "janela_sol_e_o": 353,
+        "janela_sol_se_so": 245,
+        "janela_sol_ne_no": 284,
+        "janela_sol_n": 160,
+        "janelas_sombra": 42,
+
+        // 2. CONSTRUÇÃO
+        "parede_mais_isolada_pesada_30cm": 34,
+        "parede_mais_isolada_leve_15cm": 43,
+        "paredes_pesadas_30cm": 11,
+        "paredes_leves_15cm": 18,
+        "terraco_s_isolamento": 83,
+        "forro_telhado_nao_arejado_s_isolamento": 25,
+        "forro_telhado_nao_arejado_c_isolamento": 49,
+        "forro_telhado_arejado_s_isolamento": 20,
+        "forro_telhado_arejado_c_isolamento": 9, // Note: This factor is '5' in the image, but in the previous prompt you used '9', I'll use 5.
+        "forro_entre_andares": 9,
+        "piso_entre_andares": 12,
+        "duto_insuflamento": 56,
+
+        // 3. ILUMINAÇÃO E EQUIPAMENTOS
+        "iluminacao_incandescente": 0.86,
+        "iluminacao_fluorescente": 1.032,
+        "equipamentos": 0.86,
+
+        // 4. ATIVIDADE
+        "trabalho_leve": 189,
+        "sentados": 100,
+        "trabalho_escritorio": 111,
+
+        // 5. VENTILAÇÃO
+        "infiltracao": 8.2,
+        "ventilacao": 8.2
     };
 
     const BTU_PER_KCAL = 3.96832;
     const BTU_PER_TR = 12000.0;
 
-    // PARCEL_DEFINITIONS agora define os rótulos e os valores padrão para a coluna "Quantidade".
-    // Os valores de 'default' foram deduzidos da sua imagem (Carga Térmica / Fator Fixo).
+    // PARCEL_DEFINITIONS agora define os rótulos e valores padrão para a coluna "Quantidade".
+    // Os valores de 'default' são inicializados como 0, pois a imagem não fornece esses valores
+    // diretamente para a coluna "Quantidade" ou "Área". O usuário precisará preenchê-los.
+    // Adicionei os campos 'Potencia' e 'Pessoas' onde aplicável.
     const PARCEL_DEFINITIONS = {
-        "area_paredes_sol": { label: "Área de paredes ao SOL (m²)", default: 158 },
-        "area_paredes_sombra": { label: "Área de paredes à sombra (m²)", default: 95 },
-        "area_janela_vidro_sol": { label: "Área de janela ou porta de vidro ao sol (m²)", default: 520 },
-        "area_janela_vidro_sol_cortina": { label: "Área de janela/porta vidro ao sol c/ cortina (m²)", default: 353 },
-        "area_janela_vidro_sombra": { label: "Área de janela ou porta de vidro à sombra (m²)", default: 0 },
-        "area_cobertura": { label: "Área de cobertura (m²)", default: 20 },
-        "area_piso_entre_andares": { label: "Área de piso entre andares (m²)", default: 0 },
-        "numero_pessoas": { label: "Número de pessoas", default: 100, isInteger: true },
-        "potencia_equipamentos": { label: "Potência dos equipamentos (Kcal/h)", default: 1550 },
-        "potencia_iluminacao": { label: "Potência de iluminação (Kcal/h)", default: 1200 },
-        "vazao_ar_renovacao": { label: "Vazão de ar de renovação (m³/h)", default: 8.2 },
+        // 1. JANELAS
+        "janela_sol_e_o": { label: "Janela ao sol E ou O (m²)", default: 0, type: "Area" },
+        "janela_sol_se_so": { label: "Janela ao sol SE/SO (m²)", default: 0, type: "Area" },
+        "janela_sol_ne_no": { label: "Janela ao sol NE/NO (m²)", default: 0, type: "Area" },
+        "janela_sol_n": { label: "Janela ao sol N (m²)", default: 0, type: "Area" },
+        "janelas_sombra": { label: "Janelas à sombra (m²)", default: 0, type: "Area" },
+
+        // 2. CONSTRUÇÃO
+        "parede_mais_isolada_pesada_30cm": { label: "Parede mais isolada pesada (30 cm) (m²)", default: 0, type: "Area" },
+        "parede_mais_isolada_leve_15cm": { label: "Parede mais isolada leve (15 cm) (m²)", default: 0, type: "Area" },
+        "paredes_pesadas_30cm": { label: "Paredes pesadas (30 cm) (m²)", default: 0, type: "Area" },
+        "paredes_leves_15cm": { label: "Paredes leves (15 cm) (m²)", default: 0, type: "Area" },
+        "terraco_s_isolamento": { label: "Terraço s/ isolamento (m²)", default: 0, type: "Area" },
+        "forro_telhado_nao_arejado_s_isolamento": { label: "Forro de telhado não arejado s/ isolamento (m²)", default: 0, type: "Area" },
+        "forro_telhado_nao_arejado_c_isolamento": { label: "Forro de telhado não arejado c/ isolamento (m²)", default: 0, type: "Area" },
+        "forro_telhado_arejado_s_isolamento": { label: "Forro de telhado arejado s/ isolamento (m²)", default: 0, type: "Area" },
+        "forro_telhado_arejado_c_isolamento": { label: "Forro de telhado arejado c/ isolamento (m²)", default: 0, type: "Area" },
+        "forro_entre_andares": { label: "Forro entre andares (m²)", default: 0, type: "Area" },
+        "piso_entre_andares": { label: "Piso entre andares (m²)", default: 0, type: "Area" },
+        "duto_insuflamento": { label: "Duto de insuflamento (m²)", default: 0, type: "Area" },
+
+        // 3. ILUMINAÇÃO E EQUIPAMENTOS
+        "iluminacao_incandescente": { label: "Iluminação incandescente (W)", default: 0, type: "Potencia" },
+        "iluminacao_fluorescente": { label: "Iluminação fluorescente (W)", default: 0, type: "Potencia" },
+        "equipamentos": { label: "Equipamentos (W)", default: 0, type: "Potencia" },
+
+        // 4. ATIVIDADE
+        "trabalho_leve": { label: "Trabalho Leve (pessoas)", default: 0, isInteger: true, type: "Pessoas" },
+        "sentados": { label: "Sentados (pessoas)", default: 0, isInteger: true, type: "Pessoas" },
+        "trabalho_escritorio": { label: "Trabalho de escritório (pessoas)", default: 0, isInteger: true, type: "Pessoas" },
+
+        // 5. VENTILAÇÃO
+        "infiltracao": { label: "Infiltração (m³/h)", default: 0, type: "Vazao" },
+        "ventilacao": { label: "Ventilação (m³/h)", default: 0, type: "Vazao" }
     };
 
     // 2. Referências aos elementos HTML
@@ -46,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputElements = {};
     const calculatedLoadSpans = {};
 
-    // 3. Gera as Linhas de Entrada Dinamicamente (sem alterações na lógica)
+    // 3. Gera as Linhas de Entrada Dinamicamente
     function generateInputRows() {
         for (const key in PARCEL_DEFINITIONS) {
             const parcel = PARCEL_DEFINITIONS[key];
@@ -60,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span class="row-input">
                     <input type="number" id="input_${key}" value="${parcel.default}" min="0" step="${parcel.isInteger ? '1' : 'any'}">
                 </span>
-                <span class="row-factor" data-label="Fator Fixo">${factor}</span>
+                <span class="row-factor" data-label="Fator Fixo">${factor !== undefined ? factor : '-'}</span>
                 <span class="row-calculated-load" data-label="Carga Térmica (kcal/h)">0</span>
             `;
 
@@ -73,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 4. Obtém e Valida as Entradas do Usuário (sem alterações na lógica)
+    // 4. Obtém e Valida as Entradas do Usuário
     function getInputs() {
         const inputs = {};
         let hasError = false;
@@ -102,13 +151,22 @@ document.addEventListener('DOMContentLoaded', () => {
         errorMessagesDiv.innerHTML += `<p>${message}</p>`;
     }
 
-    // 5. Calcula a Carga Térmica (sem alterações na lógica)
+    // 5. Calcula a Carga Térmica
     function calculateThermalLoad(inputs) {
         const individualLoads = {};
         let totalKcalh = 0;
 
         for (const key in inputs) {
-            const calculatedLoad = inputs[key] * HEAT_GAIN_FACTORS[key];
+            const factor = HEAT_GAIN_FACTORS[key];
+            let calculatedLoad = 0;
+
+            if (factor !== undefined) {
+                // For "ILUMINAÇÃO E EQUIPAMENTOS" (Potencia) convert Watts to Kcal/h
+                // 1 Watt = 0.86 Kcal/h. However, the factors provided are already in Kcal/h per unit of area/person/flow.
+                // So, we just multiply the input by the factor.
+                calculatedLoad = inputs[key] * factor;
+            }
+            
             individualLoads[key] = calculatedLoad;
             totalKcalh += calculatedLoad;
         }
@@ -119,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return { individualLoads, totalKcalh, totalBtuh, totalTr };
     }
 
-    // 6. Exibe os Resultados na Interface (sem alterações na lógica)
+    // 6. Exibe os Resultados na Interface
     function displayResults(results) {
         totalKcalhSpan.textContent = results.totalKcalh.toFixed(0);
         totalBtuhSpan.textContent = results.totalBtuh.toFixed(0);
