@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Adicionei os campos 'Potencia' e 'Pessoas' onde aplicável.
     const PARCEL_DEFINITIONS = {
         // 1. JANELAS
-        "janela_sol_e_o": { label: "Janela ao sol E ou O (m²)", default: 0, type: "Area" },
+        "janela_sol_e_o": { label: "Janela ao sol L ou O (m²)", default: 0, type: "Area" },
         "janela_sol_se_so": { label: "Janela ao sol SE/SO (m²)", default: 0, type: "Area" },
         "janela_sol_ne_no": { label: "Janela ao sol NE/NO (m²)", default: 0, type: "Area" },
         "janela_sol_n": { label: "Janela ao sol N (m²)", default: 0, type: "Area" },
