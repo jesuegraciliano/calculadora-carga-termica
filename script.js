@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
         "janelas_sombra": 42,
 
         // 2. CONSTRUÇÃO
-        "parede_mais_isolada_pesada_30cm": 34,
-        "parede_mais_isolada_leve_15cm": 43,
+        "parede_mais_insolada_pesada_30cm": 34,
+        "parede_mais_insolada_leve_15cm": 43,
         "paredes_pesadas_30cm": 11,
         "paredes_leves_15cm": 18,
-        "terraco_s_isolamento": 83,
+        "terraco_sem_isolamento": 83,
         "forro_telhado_nao_arejado_s_isolamento": 25,
         "forro_telhado_nao_arejado_c_isolamento": 49,
         "forro_telhado_arejado_s_isolamento": 20,
-        "forro_telhado_arejado_c_isolamento": 9, // Note: This factor is '5' in the image, but in the previous prompt you used '9', I'll use 5.
+        "forro_telhado_arejado_c_isolamento": 5, // Note: This factor is '5' in the image, but in the previous prompt you used '9', I'll use 5.
         "forro_entre_andares": 9,
         "piso_entre_andares": 12,
         "duto_insuflamento": 56,
@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
         "janelas_sombra": { label: "Janelas à sombra (m²)", default: 0, type: "Area" },
 
         // 2. CONSTRUÇÃO
-        "parede_mais_isolada_pesada_30cm": { label: "Parede mais isolada pesada (30 cm) (m²)", default: 0, type: "Area" },
-        "parede_mais_isolada_leve_15cm": { label: "Parede mais isolada leve (15 cm) (m²)", default: 0, type: "Area" },
+        "parede_mais_insolada_pesada_30cm": { label: "Parede mais insolada pesada (30 cm) (m²)", default: 0, type: "Area" },
+        "parede_mais_insolada_leve_15cm": { label: "Parede mais insolada leve (15 cm) (m²)", default: 0, type: "Area" },
         "paredes_pesadas_30cm": { label: "Paredes pesadas (30 cm) (m²)", default: 0, type: "Area" },
         "paredes_leves_15cm": { label: "Paredes leves (15 cm) (m²)", default: 0, type: "Area" },
-        "terraco_s_isolamento": { label: "Terraço s/ isolamento (m²)", default: 0, type: "Area" },
+        "terraco_sem_isolamento": { label: "Terraço s/ isolamento (m²)", default: 0, type: "Area" },
         "forro_telhado_nao_arejado_s_isolamento": { label: "Forro de telhado não arejado s/ isolamento (m²)", default: 0, type: "Area" },
         "forro_telhado_nao_arejado_c_isolamento": { label: "Forro de telhado não arejado c/ isolamento (m²)", default: 0, type: "Area" },
         "forro_telhado_arejado_s_isolamento": { label: "Forro de telhado arejado s/ isolamento (m²)", default: 0, type: "Area" },
