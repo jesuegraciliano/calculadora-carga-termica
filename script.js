@@ -1,6 +1,5 @@
 // 1. Constantes para Fatores de Carga Térmica e Conversão (VALIDADOS)
-// ATENÇÃO: Os fatores para 'equipamentos_potencia' e 'iluminacao_potencia' foram alterados para 1.
-// Isso porque o DADO de entrada para esses itens já representa a carga total em kcal/h.
+// Os fatores aqui correspondem à coluna "DADOS" da sua planilha.
 const HEAT_GAIN_FACTORS = {
     "area_paredes_sol": 158,       // kcal/h por m²
     "area_paredes_sombra": 95,     // kcal/h por m²
@@ -10,15 +9,15 @@ const HEAT_GAIN_FACTORS = {
     "area_cobertura": 229,         // kcal/h por m²
     "area_piso_entre_andares": 0,  // kcal/h por m²
     "numero_pessoas": 13,     // kcal/h por pessoa
-    "potencia_equipamentos": 1,    // <<< CORRIGIDO PARA 1 >>> (porque a entrada já é a carga total em kcal/h)
-    "potencia_iluminacao": 1,      // <<< CORRIGIDO PARA 1 >>> (porque a entrada já é a carga total em kcal/h)
+    "potencia_equipamentos": 1550, // kcal/h (este é o fator fixo, a quantidade será o multiplicador)
+    "potencia_iluminacao": 1200,   // kcal/h (este é o fator fixo, a quantidade será o multiplicador)
     "vazao_ar_renovacao": 357       // kcal/h por m³/h
 };
 
 const BTU_PER_KCAL = 3.96832;
 const BTU_PER_TR = 12000.0; // 1 Tonelada de Refrigeração = 12000 BTU/h
 
-// Mapeamento para nomes amigáveis na exibição e valores padrão (da sua primeira tabela)
+// Mapeamento para nomes amigáveis na exibição e valores padrão de ENTRADA (coluna "# FATOR" da sua planilha)
 const PARCEL_DEFINITIONS = {
     "area_paredes_sol": { label: "Área de paredes ao SOL (m²)", default: 43 },
     "area_paredes_sombra": { label: "Área de paredes à sombra (m²)", default: 18 },
@@ -28,8 +27,8 @@ const PARCEL_DEFINITIONS = {
     "area_cobertura": { label: "Área de cobertura (m²)", default: 20 },
     "area_piso_entre_andares": { label: "Área de piso entre andares (m²)", default: 10 },
     "numero_pessoas": { label: "Número de pessoas", default: 100, isInteger: true },
-    "potencia_equipamentos": { label: "Potência dos equipamentos (Kcal/h total)", default: 1550 }, // <<< DEFAULT MANTIDO 1550 >>>
-    "potencia_iluminacao": { label: "Potência de iluminação (Kcal/h total)", default: 1200 },     // <<< DEFAULT MANTIDO 1200 >>>
+    "potencia_equipamentos": { label: "Potência dos equipamentos (Kcal/h total)", default: 1 }, // Default 1, fator fixo 1550
+    "potencia_iluminacao": { label: "Potência de iluminação (Kcal/h total)", default: 1 },     // Default 1, fator fixo 1200
     "vazao_ar_renovacao": { label: "Vazão de ar de renovação (m³/h)", default: 8.2 },
 };
 
@@ -61,13 +60,13 @@ function generateInputRows() {
         labelDiv.textContent = parcel.label;
         row.appendChild(labelDiv);
 
-        // Coluna 2: Quantidade (Input)
+        // Coluna 2: Quantidade (Input) - AGORA É O CAMPO DE ENTRADA
         const inputDiv = document.createElement('span');
         inputDiv.classList.add('row-input');
         const input = document.createElement('input');
         input.type = "number";
         input.id = `input_${key}`; // ID único para cada input
-        input.value = defaultValue;
+        input.value = defaultValue; // Valor padrão da coluna "# FATOR" da planilha
         input.min = "0";
         // Para números inteiros (como 'Número de pessoas'), adiciona step="1"
         if (parcel.isInteger) {
@@ -84,17 +83,17 @@ function generateInputRows() {
         // Armazena a referência do input
         inputElements[key] = input;
 
-        // Coluna 3: Fator Fixo (Display)
+        // Coluna 3: Fator Fixo (Display) - AGORA É APENAS EXIBIÇÃO
         const factorDiv = document.createElement('span');
         factorDiv.classList.add('row-factor');
-        factorDiv.textContent = factor;
+        factorDiv.textContent = factor; // Fator da coluna "DADOS" da planilha
         factorDiv.dataset.label = 'Fator Fixo'; // Para responsividade em telas pequenas
         row.appendChild(factorDiv);
 
         // Coluna 4: Carga Térmica (Calculada - Display)
         const calculatedLoadDiv = document.createElement('span');
         calculatedLoadDiv.classList.add('row-calculated-load');
-        calculatedLoadDiv.textContent = '0.00'; // Valor inicial
+        calculatedLoadDiv.textContent = '0'; // Valor inicial sem decimais
         calculatedLoadDiv.dataset.label = 'Carga Térmica (kcal/h)'; // Para responsividade em telas pequenas
         row.appendChild(calculatedLoadDiv);
 
@@ -172,15 +171,16 @@ function calculateThermalLoad(inputs) {
 
 // 6. Função para Exibir Resultados na UI
 function displayResults(results) {
-    totalKcalhSpan.textContent = results.totalKcalh.toFixed(2);
-    totalBtuhSpan.textContent = results.totalBtuh.toFixed(2);
-    totalTrSpan.textContent = results.totalTr.toFixed(2);
+    // Resultados totais sem casas decimais
+    totalKcalhSpan.textContent = results.totalKcalh.toFixed(0);
+    totalBtuhSpan.textContent = results.totalBtuh.toFixed(0);
+    totalTrSpan.textContent = results.totalTr.toFixed(1); // TR pode ter uma casa decimal para precisão, se desejar. Se não, toFixed(0)
 
-    // Atualiza as cargas individuais na tabela
+    // Atualiza as cargas individuais na tabela sem casas decimais
     for (const key in results.individualLoads) {
         const span = calculatedLoadSpans[key];
         if (span) {
-            span.textContent = results.individualLoads[key].toFixed(2);
+            span.textContent = results.individualLoads[key].toFixed(0);
         }
     }
 }
@@ -193,11 +193,11 @@ function calculateAndDisplayAll() {
         displayResults(results);
     } else {
         // Se houver erro, zera os resultados para evitar mostrar valores incorretos
-        totalKcalhSpan.textContent = '0.00';
-        totalBtuhSpan.textContent = '0.00';
-        totalTrSpan.textContent = '0.00';
+        totalKcalhSpan.textContent = '0';
+        totalBtuhSpan.textContent = '0';
+        totalTrSpan.textContent = '0';
         for (const key in calculatedLoadSpans) {
-            calculatedLoadSpans[key].textContent = '0.00';
+            calculatedLoadSpans[key].textContent = '0';
         }
     }
 }
