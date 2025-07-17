@@ -26,20 +26,11 @@ h1 {
     margin-bottom: 10px;
 }
 
-.description, .info {
+.description {
     text-align: center;
     color: #555;
-    margin-bottom: 15px;
-    font-size: 1.1em;
-}
-
-.info {
-    font-size: 0.9em;
-    color: #007bff;
-    background-color: #e0f2f7;
-    padding: 10px;
-    border-radius: 5px;
     margin-bottom: 25px;
+    font-size: 1.1em;
 }
 
 /* Estilo da tabela com Grid Layout */
@@ -53,7 +44,7 @@ h1 {
 
 .table-header, .table-row {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1.5fr; /* Proporção das colunas */
+    grid-template-columns: 2.5fr 1fr 1fr 1.5fr; /* Ajuste na proporção das colunas */
     align-items: center;
     padding: 12px 15px;
     border-bottom: 1px solid #eee;
@@ -81,6 +72,7 @@ h1 {
     font-weight: 500;
     color: #333;
     text-align: left;
+    padding-right: 10px;
 }
 
 .row-input input {
