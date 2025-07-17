@@ -1,216 +1,140 @@
-<style>
-    /* Fundo e container */
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #1b5e20;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        min-height: 100vh;
-    }
+/* Estilo geral da página */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1b5e20; /* Verde escuro externo */
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
 
-    .container {
-        background-color: #ffffff;
-        max-width: 1000px;
-        width: 100%;
-        margin: 30px;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    }
+/* Container central branco */
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    max-width: 1000px;
+    width: 100%;
+    box-sizing: border-box;
+}
 
-    /* Logotipo */
-    .logo-topo {
-        text-align: center;
-        margin-bottom: 15px;
-    }
-    .logo-topo img.logo {
-        max-height: 80px;
-        height: auto;
-    }
+/* Logotipo */
+.logo-topo {
+    text-align: center;
+    margin-bottom: 15px;
+}
+.logo-topo img.logo {
+    max-height: 80px;
+    height: auto;
+}
 
-    /* Título e descrição */
-    h1 {
-        text-align: center;
-        color: #2e7d32;
-        font-size: 1.8em;
-        margin: 0 0 10px;
-    }
+/* Cabeçalhos */
+h1 {
+    color: #2e7d32;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.description {
+    text-align: center;
+    color: #555;
+    margin-bottom: 25px;
+    font-size: 1.05em;
+}
 
-    .description {
-        text-align: center;
-        font-size: 1em;
-        color: #555;
-        margin-bottom: 30px;
-    }
+/* Tabela */
+.thermal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 30px;
+}
+.thermal-table th,
+.thermal-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    text-align: center;
+}
+.thermal-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
 
-    /* Tabela */
-    .thermal-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 30px;
-    }
+/* Estilos das colunas */
+.input input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    background-color: #c8e6c9; /* Verde claro */
+    font-size: 1em;
+    box-sizing: border-box;
+}
+.fixed {
+    background-color: #fff59d; /* Amarelo claro */
+}
+.output {
+    background-color: #81d4fa; /* Azul claro */
+    font-weight: bold;
+    color: #003c63;
+}
 
+/* Resultados finais */
+.results-section {
+    margin-top: 30px;
+    border-top: 2px solid #e0e0e0;
+    padding-top: 20px;
+    text-align: center;
+}
+.results-section h2 {
+    color: #2e7d32;
+    margin-bottom: 10px;
+}
+.result-item {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #004d26;
+    margin-bottom: 10px;
+}
+.result-value {
+    font-size: 1.2em;
+}
+
+/* Nota técnica */
+.note {
+    font-size: 0.9em;
+    color: #555;
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Botão PDF */
+.pdf-button {
+    display: block;
+    margin: 20px auto 0;
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.pdf-button:hover {
+    background-color: #1b5e20;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
     .thermal-table th,
     .thermal-table td {
-        padding: 10px;
-        border: 1px solid #ccc;
-        text-align: center;
+        font-size: 0.9em;
+        padding: 8px;
     }
-
-    .thermal-table thead th {
-        background-color: #f0f0f0;
-    }
-
-    /* Colunas coloridas e largura */
-    .thermal-table tbody td:nth-child(2) { /* Coluna de Entrada de Dados (Dado) */
-        width: 15%; /* Reduzindo a largura */
-        background-color: #e0ffe0; /* Verde clarinho */
-    }
-
-    .thermal-table tbody td:nth-child(2) input { /* Input dentro da coluna de Dados */
+    .pdf-button {
         width: 100%;
-        padding: 8px;
-        font-size: 1em;
-        background-color: #e0ffe0; /* Verde clarinho */
-        border: 1px solid #bbb;
-        border-radius: 6px;
-        box-sizing: border-box;
-        text-align: center; /* Centralizar o texto dentro do input */
     }
-
-    .thermal-table tbody td:nth-child(3) { /* Coluna do Fator */
-        width: 10%; /* Ajuste de largura */
-        background-color: #fff59d;
-        font-weight: bold;
-        color: #555;
-    }
-
-    .thermal-table tbody td:nth-child(4) { /* Coluna da Carga Térmica (kcal/h) */
-        width: 20%; /* Ajuste de largura */
-        background-color: #81d4fa;
-        font-weight: bold;
-        color: #004d40;
-    }
-
-    /* Resultados */
-    .results-section {
-        text-align: center;
-        margin-top: 30px;
-        border-top: 2px solid #e0e0e0;
-        padding-top: 20px;
-    }
-
-    .results-section h2 {
-        color: #2e7d32;
-        font-size: 1.4em;
-        margin: 0 0 10px; /* Ajuste para não ter muito espaço acima */
-    }
-
-    .result-item {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #1b5e20;
-        margin-bottom: 10px;
-    }
-
-    /* Gráfico */
-    .chart-section {
-        margin-top: 40px;
-        padding-top: 20px;
-        border-top: 2px solid #e0e0e0;
-    }
-
-    .chart-section h2 {
-        text-align: center;
-        color: #2e7d32;
-        font-size: 1.4em;
-        margin-bottom: 15px;
-    }
-
-    /* Nota */
-    .note {
-        font-size: 0.9em;
-        text-align: center;
-        color: #555;
-        margin-top: 30px;
-        white-space: normal;
-        word-wrap: break-word;
-    }
-
-    /* Botões de Ação */
-    .action-button {
-        display: block;
-        margin: 20px auto;
-        background-color: #2e7d32;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        font-size: 1em;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-
-    .action-button:hover {
-        background-color: #1b5e20;
-    }
-
-    .buttons-section {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 2px solid #e0e0e0;
-    }
-
-    .buttons-section .action-button {
-        margin: 0 10px;
-        width: 45%;
-    }
-
-    /* Seções escondidas */
-    .hidden {
-        display: none;
-    }
-
-    /* Mensagem para inserção de dados */
-    .input-instruction {
-        font-size: 0.9em;
-        color: #666;
-        text-align: center;
-        margin-bottom: 15px;
-        padding: 8px;
-        background-color: #f0f0f0;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-    }
-
-    /* Responsivo */
-    @media (max-width: 768px) {
-        .thermal-table th,
-        .thermal-table td {
-            font-size: 0.9em;
-            padding: 8px;
-        }
-        .buttons-section {
-            flex-direction: column;
-        }
-        .buttons-section .action-button {
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        /* Ajuste para telas menores na tabela */
-        .thermal-table tbody td:nth-child(2) {
-            width: 25%; /* Mais largura em telas pequenas para o input */
-        }
-        .thermal-table tbody td:nth-child(3) {
-            width: 15%; /* Fator */
-        }
-        .thermal-table tbody td:nth-child(4) {
-            width: 25%; /* Carga Térmica */
-        }
-    }
-</style>
+}
