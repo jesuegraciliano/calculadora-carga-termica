@@ -1,5 +1,6 @@
 // 1. Constantes para Fatores de Carga Térmica e Conversão (VALIDADOS)
-// Estes são os fatores da sua TABELA ORIGINAL, que você confirmou que são os corretos.
+// ATENÇÃO: Os fatores para 'equipamentos_potencia' e 'iluminacao_potencia' foram alterados para 1.
+// Isso porque o DADO de entrada para esses itens já representa a carga total em kcal/h.
 const HEAT_GAIN_FACTORS = {
     "area_paredes_sol": 158,       // kcal/h por m²
     "area_paredes_sombra": 95,     // kcal/h por m²
@@ -9,8 +10,8 @@ const HEAT_GAIN_FACTORS = {
     "area_cobertura": 229,         // kcal/h por m²
     "area_piso_entre_andares": 0,  // kcal/h por m²
     "numero_pessoas": 13,     // kcal/h por pessoa
-    "potencia_equipamentos": 1550, // kcal/h (assume que a entrada é o calor total da parcela)
-    "potencia_iluminacao": 1200,   // kcal/h (assume que a entrada é o calor total da parcela)
+    "potencia_equipamentos": 1,    // <<< CORRIGIDO PARA 1 >>> (porque a entrada já é a carga total em kcal/h)
+    "potencia_iluminacao": 1,      // <<< CORRIGIDO PARA 1 >>> (porque a entrada já é a carga total em kcal/h)
     "vazao_ar_renovacao": 357       // kcal/h por m³/h
 };
 
@@ -27,8 +28,8 @@ const PARCEL_DEFINITIONS = {
     "area_cobertura": { label: "Área de cobertura (m²)", default: 20 },
     "area_piso_entre_andares": { label: "Área de piso entre andares (m²)", default: 10 },
     "numero_pessoas": { label: "Número de pessoas", default: 100, isInteger: true },
-    "potencia_equipamentos": { label: "Potência dos equipamentos (Kcal/h total)", default: 1550 },
-    "potencia_iluminacao": { label: "Potência de iluminação (Kcal/h total)", default: 1200 },
+    "potencia_equipamentos": { label: "Potência dos equipamentos (Kcal/h total)", default: 1550 }, // <<< DEFAULT MANTIDO 1550 >>>
+    "potencia_iluminacao": { label: "Potência de iluminação (Kcal/h total)", default: 1200 },     // <<< DEFAULT MANTIDO 1200 >>>
     "vazao_ar_renovacao": { label: "Vazão de ar de renovação (m³/h)", default: 8.2 },
 };
 
