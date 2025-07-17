@@ -1,146 +1,150 @@
-// 1. Constantes de Fatores de Carga e Conversão
-const HEAT_GAIN_FACTORS = {
-    area_paredes_sol: 158,
-    area_paredes_sombra: 95,
-    area_janela_vidro_sol: 16,
-    area_janela_vidro_sol_cortina: 12,
-    area_janela_vidro_sombra: 0,
-    area_cobertura: 229,
-    area_piso_entre_andares: 0,
-    numero_pessoas: 13,
-    potencia_equipamentos: 1550,
-    potencia_iluminacao: 1200,
-    vazao_ar_renovacao: 357
-};
+// Aguarda o carregamento completo do DOM para iniciar o script
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Constantes para Fatores de Carga Térmica e Conversão (VALIDADOS)
+    const HEAT_GAIN_FACTORS = {
+        "area_paredes_sol": 158,                 // kcal/h por m²
+        "area_paredes_sombra": 95,               // kcal/h por m²
+        "area_janela_vidro_sol": 520,            // kcal/h por m²
+        "area_janela_vidro_sol_cortina": 353,    // kcal/h por m²
+        "area_janela_vidro_sombra": 42,          // kcal/h por m²
+        "area_cobertura": 20,                    // kcal/h por m²
+        "area_piso_entre_andares": 10,           // kcal/h por m²
+        "numero_pessoas": 100,                   // kcal/h por pessoa
+        "potencia_equipamentos": 1550,           // Fator Fixo Kcal/h
+        "potencia_iluminacao": 1200,             // Fator Fixo Kcal/h
+        "vazao_ar_renovacao": 8.2                // kcal/h por m³/h
+    };
 
-const BTU_PER_KCAL = 3.96832;
-const BTU_PER_TR = 12000;
+    const BTU_PER_KCAL = 3.96832;
+    const BTU_PER_TR = 12000.0;
 
-// 2. Definições para cada entrada do usuário
-const PARCEL_DEFINITIONS = {
-    area_paredes_sol: { label: "Área de paredes ao SOL (m²)", default: 43 },
-    area_paredes_sombra: { label: "Área de paredes à sombra (m²)", default: 18 },
-    area_janela_vidro_sol: { label: "Área de janela ou porta de vidro ao sol (m²)", default: 520 },
-    area_janela_vidro_sol_cortina: { label: "Área de janela/porta vidro ao sol c/ cortina (m²)", default: 353 },
-    area_janela_vidro_sombra: { label: "Área de janela ou porta de vidro à sombra (m²)", default: 42 },
-    area_cobertura: { label: "Área de cobertura (m²)", default: 20 },
-    area_piso_entre_andares: { label: "Área de piso entre andares (m²)", default: 10 },
-    numero_pessoas: { label: "Número de pessoas", default: 100, isInteger: true },
-    potencia_equipamentos: { label: "Potência dos equipamentos (Kcal/h total)", default: 1 },
-    potencia_iluminacao: { label: "Potência de iluminação (Kcal/h total)", default: 1 },
-    vazao_ar_renovacao: { label: "Vazão de ar de renovação (m³/h)", default: 8.2 }
-};
+    // Mapeamento para nomes amigáveis e valores padrão de entrada
+    const PARCEL_DEFINITIONS = {
+        "area_paredes_sol": { label: "Área de paredes ao SOL (m²)", default: 43 },
+        "area_paredes_sombra": { label: "Área de paredes à sombra (m²)", default: 18 },
+        "area_janela_vidro_sol": { label: "Área de janela ou porta de vidro ao sol (m²)", default: 16 },
+        "area_janela_vidro_sol_cortina": { label: "Área de janela/porta vidro ao sol c/ cortina (m²)", default: 12 },
+        "area_janela_vidro_sombra": { label: "Área de janela ou porta de vidro à sombra (m²)", default: 0 },
+        "area_cobertura": { label: "Área de cobertura (m²)", default: 229 },
+        "area_piso_entre_andares": { label: "Área de piso entre andares (m²)", default: 0 },
+        "numero_pessoas": { label: "Número de pessoas", default: 13, isInteger: true },
+        // AJUSTE: Rótulo mais claro para indicar que o valor '1' usa o fator padrão.
+        "potencia_equipamentos": { label: "Fator para Equipamentos (use 1 para padrão)", default: 1 },
+        "potencia_iluminacao": { label: "Fator para Iluminação (use 1 para padrão)", default: 1 },
+        "vazao_ar_renovacao": { label: "Vazão de ar de renovação (m³/h)", default: 357 },
+    };
 
-// 3. Elementos HTML de saída
-const inputRowsContainer = document.getElementById('inputRows');
-const totalKcalhSpan = document.getElementById('totalKcalh');
-const totalBtuhSpan = document.getElementById('totalBtuh');
-const totalTrSpan = document.getElementById('totalTr');
-const errorMessagesDiv = document.getElementById('errorMessages');
+    // 2. Referências aos elementos HTML
+    const inputRowsContainer = document.getElementById('inputRows');
+    const totalKcalhSpan = document.getElementById('totalKcalh');
+    const totalBtuhSpan = document.getElementById('totalBtuh');
+    const totalTrSpan = document.getElementById('totalTr');
+    const errorMessagesDiv = document.getElementById('errorMessages');
 
-// Armazenamento de referências
-const inputElements = {};
-const calculatedLoadSpans = {};
+    const inputElements = {};
+    const calculatedLoadSpans = {};
 
-// 4. Criação dinâmica dos campos de entrada
-function generateInputRows() {
-    for (const key in PARCEL_DEFINITIONS) {
-        const parcel = PARCEL_DEFINITIONS[key];
-        const factor = HEAT_GAIN_FACTORS[key];
-        const defaultValue = parcel.default;
+    // 3. Gera as Linhas de Entrada Dinamicamente
+    function generateInputRows() {
+        for (const key in PARCEL_DEFINITIONS) {
+            const parcel = PARCEL_DEFINITIONS[key];
+            const factor = HEAT_GAIN_FACTORS[key];
 
-        const row = document.createElement('div');
-        row.classList.add('table-row');
-        row.dataset.key = key;
+            const row = document.createElement('div');
+            row.classList.add('table-row');
+            
+            // Coluna 1: Rótulo
+            row.innerHTML = `
+                <span class="row-label">${parcel.label}</span>
+                <span class="row-input">
+                    <input type="number" id="input_${key}" value="${parcel.default}" min="0" step="${parcel.isInteger ? '1' : 'any'}">
+                </span>
+                <span class="row-factor" data-label="Fator Fixo">${factor}</span>
+                <span class="row-calculated-load" data-label="Carga Térmica (kcal/h)">0</span>
+            `;
 
-        // Fonte de calor (coluna 1)
-        const labelDiv = document.createElement('span');
-        labelDiv.classList.add('row-label', 'grid-col-1');
-        labelDiv.textContent = parcel.label;
-        row.appendChild(labelDiv);
+            inputRowsContainer.appendChild(row);
 
-        // Campo de entrada (coluna 2)
-        const inputDiv = document.createElement('span');
-        inputDiv.classList.add('row-input', 'grid-col-2');
-        const input = document.createElement('input');
-        input.type = "number";
-        input.id = `input_${key}`;
-        input.value = defaultValue;
-        input.min = "0";
-        input.step = parcel.isInteger ? "1" : "any";
-        input.addEventListener('input', calculateAndDisplayAll);
-        inputDiv.appendChild(input);
-        row.appendChild(inputDiv);
-        inputElements[key] = input;
-
-        // Fator fixo (coluna 3)
-        const factorDiv = document.createElement('span');
-        factorDiv.classList.add('row-factor', 'grid-col-3');
-        factorDiv.textContent = factor;
-        factorDiv.dataset.label = 'Fator Fixo';
-        row.appendChild(factorDiv);
-
-        // Resultado da carga (coluna 4)
-        const loadDiv = document.createElement('span');
-        loadDiv.classList.add('row-calculated-load', 'grid-col-4');
-        loadDiv.textContent = '0';
-        loadDiv.dataset.label = 'Carga Térmica (kcal/h)';
-        row.appendChild(loadDiv);
-        calculatedLoadSpans[key] = loadDiv;
-
-        inputRowsContainer.appendChild(row);
-    }
-}
-
-// 5. Validação dos dados inseridos
-function getInputs() {
-    const inputs = {};
-    let hasError = false;
-    errorMessagesDiv.style.display = 'none';
-    errorMessagesDiv.innerHTML = '';
-
-    for (const key in PARCEL_DEFINITIONS) {
-        const input = inputElements[key];
-        const value = parseFloat(input.value.replace(',', '.'));
-        if (isNaN(value) || value < 0) {
-            displayError(`"${PARCEL_DEFINITIONS[key].label}" deve ser um número válido e positivo.`);
-            input.classList.add('error-input');
-            hasError = true;
-        } else {
-            inputs[key] = value;
-            input.classList.remove('error-input');
+            // Armazena referências e adiciona listener
+            const input = document.getElementById(`input_${key}`);
+            inputElements[key] = input;
+            calculatedLoadSpans[key] = row.querySelector('.row-calculated-load');
+            input.addEventListener('input', calculateAndDisplayAll);
         }
     }
 
-    return hasError ? null : inputs;
-}
+    // 4. Obtém e Valida as Entradas do Usuário
+    function getInputs() {
+        const inputs = {};
+        let hasError = false;
+        errorMessagesDiv.style.display = 'none';
+        errorMessagesDiv.innerHTML = '';
 
-// Exibição de erros
-function displayError(message) {
-    errorMessagesDiv.style.display = 'block';
-    const p = document.createElement('p');
-    p.textContent = `- ${message}`;
-    errorMessagesDiv.appendChild(p);
-}
+        for (const key in PARCEL_DEFINITIONS) {
+            const inputElement = inputElements[key];
+            const valueStr = inputElement.value.replace(',', '.');
+            const value = parseFloat(valueStr);
 
-// 6. Cálculo da carga térmica total
-function calculateThermalLoad(inputs) {
-    const individualLoads = {};
-    let totalKcalh = 0;
-
-    for (const key in inputs) {
-        const value = inputs[key];
-        const factor = HEAT_GAIN_FACTORS[key];
-        const carga = value * factor;
-        individualLoads[key] = carga;
-        totalKcalh += carga;
+            if (isNaN(value) || value < 0) {
+                displayError(`Valor inválido para "${PARCEL_DEFINITIONS[key].label}". Use apenas números positivos.`);
+                inputElement.classList.add('error-input');
+                hasError = true;
+            } else {
+                inputs[key] = value;
+                inputElement.classList.remove('error-input');
+            }
+        }
+        return hasError ? null : inputs;
+    }
+    
+    // Função auxiliar para mostrar erros
+    function displayError(message) {
+        errorMessagesDiv.style.display = 'block';
+        errorMessagesDiv.innerHTML += `<p>${message}</p>`;
     }
 
-    const totalBtuh = totalKcalh * BTU_PER_KCAL;
-    const totalTr = totalBtuh / BTU_PER_TR;
+    // 5. Calcula a Carga Térmica
+    function calculateThermalLoad(inputs) {
+        const individualLoads = {};
+        let totalKcalh = 0;
 
-    return {
-        individualLoads,
-        totalKcalh,
-        totalBtuh,
-       
+        for (const key in inputs) {
+            const calculatedLoad = inputs[key] * HEAT_GAIN_FACTORS[key];
+            individualLoads[key] = calculatedLoad;
+            totalKcalh += calculatedLoad;
+        }
+
+        const totalBtuh = totalKcalh * BTU_PER_KCAL;
+        const totalTr = totalBtuh / BTU_PER_TR;
+
+        return { individualLoads, totalKcalh, totalBtuh, totalTr };
+    }
+
+    // 6. Exibe os Resultados na Interface
+    function displayResults(results) {
+        totalKcalhSpan.textContent = results.totalKcalh.toFixed(0);
+        totalBtuhSpan.textContent = results.totalBtuh.toFixed(0);
+        totalTrSpan.textContent = results.totalTr.toFixed(1);
+
+        for (const key in results.individualLoads) {
+            calculatedLoadSpans[key].textContent = results.individualLoads[key].toFixed(0);
+        }
+    }
+
+    // Função principal que orquestra o cálculo e a exibição
+    function calculateAndDisplayAll() {
+        const inputs = getInputs();
+        if (inputs) {
+            const results = calculateThermalLoad(inputs);
+            displayResults(results);
+        } else {
+            // Zera os resultados se houver erro de validação
+            displayResults({ totalKcalh: 0, totalBtuh: 0, totalTr: 0, individualLoads: {} });
+        }
+    }
+
+    // Inicialização da aplicação
+    generateInputRows();
+    calculateAndDisplayAll();
+});
