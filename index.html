@@ -1,277 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Calculadora de Carga Térmica</title>
-  <style>
-    /* Fundo e container */
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #1b5e20;
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-        min-height: 100vh;
-    }
-
-    .container {
-        background-color: #ffffff;
-        max-width: 1000px;
-        width: 100%;
-        margin: 30px;
-        padding: 30px;
-        border-radius: 12px;
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-    }
-
-    /* Logotipo */
-    .logo-topo {
-        text-align: center;
-        margin-bottom: 15px;
-    }
-
-    .logo-topo img.logo {
-        max-height: 80px;
-        height: auto;
-    }
-
-    /* Título e descrição */
-    h1 {
-        text-align: center;
-        color: #2e7d32;
-        font-size: 1.8em;
-        margin-bottom: 10px;
-    }
-
-    .description {
-        text-align: center;
-        font-size: 1em;
-        color: #555;
-        margin-bottom: 30px;
-    }
-
-    /* Mensagem de instrução */
-    .input-instruction {
-        font-size: 0.9em;
-        color: #666;
-        text-align: center;
-        margin-bottom: 15px;
-        padding: 8px;
-        background-color: #f0f0f0;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-    }
-
-    /* Tabela */
-    .thermal-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 30px;
-    }
-
-    .thermal-table th,
-    .thermal-table td {
-        padding: 10px;
-        border: 1px solid #ccc;
-        text-align: center;
-    }
-
-    .thermal-table thead th {
-        background-color: #f0f0f0;
-    }
-
-    .thermal-table tbody td:nth-child(2) {
-        width: 15%;
-        background-color: #e0ffe0;
-    }
-
-    .thermal-table tbody td:nth-child(2) input {
-        width: 100%;
-        padding: 8px;
-        font-size: 1em;
-        background-color: #e0ffe0;
-        border: 1px solid #bbb;
-        border-radius: 6px;
-        box-sizing: border-box;
-        text-align: center;
-    }
-
-    .thermal-table tbody td:nth-child(3) {
-        width: 10%;
-        background-color: #fff59d;
-        font-weight: bold;
-        color: #555;
-    }
-
-    .thermal-table tbody td:nth-child(4) {
-        width: 20%;
-        background-color: #81d4fa;
-        font-weight: bold;
-        color: #004d40;
-    }
-
-    /* Seção de resultados */
-    .results-section {
-        text-align: center;
-        margin-top: 30px;
-        border-top: 2px solid #e0e0e0;
-        padding-top: 20px;
-    }
-
-    .results-section h2 {
-        color: #2e7d32;
-        font-size: 1.4em;
-        margin-bottom: 10px;
-    }
-
-    .result-item {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #1b5e20;
-        margin-bottom: 10px;
-    }
-
-    /* Botões */
-    .buttons-section {
-        display: flex;
-        justify-content: space-around;
-        margin-top: 30px;
-        padding-top: 20px;
-        border-top: 2px solid #e0e0e0;
-        flex-wrap: wrap;
-    }
-
-    .action-button {
-        background-color: #2e7d32;
-        color: white;
-        border: none;
-        padding: 12px 20px;
-        font-size: 1em;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-        margin: 10px;
-        min-width: 160px;
-    }
-
-    .action-button:hover {
-        background-color: #1b5e20;
-    }
-
-    /* Nota de rodapé */
-    .note {
-        font-size: 0.9em;
-        text-align: center;
-        color: #555;
-        margin-top: 30px;
-        white-space: normal;
-        word-wrap: break-word;
-    }
-
-    /* Responsividade */
-    @media (max-width: 768px) {
-        .thermal-table th,
-        .thermal-table td {
-            font-size: 0.9em;
-            padding: 8px;
-        }
-
-        .buttons-section {
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .action-button {
-            width: 90%;
-            margin-bottom: 10px;
-        }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Carga Térmica Online</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="logo-topo">
-      <img class="logo" src="logo.png" alt="Logo do projeto">
+    <div class="container">
+        <h1>Calculadora de Carga Térmica</h1>
+        <p class="description">Insira os dados para calcular a carga térmica do ambiente.</p>
+
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="areaParedesSol">Área de paredes ao SOL (m²):</label>
+                <input type="number" id="areaParedesSol" value="43" min="0">
+            </div>
+            <div class="input-group">
+                <label for="areaParedesSombra">Área de paredes à sombra (m²):</label>
+                <input type="number" id="areaParedesSombra" value="18" min="0">
+            </div>
+            <div class="input-group">
+                <label for="areaJanelaVidroSol">Área de janela ou porta de vidro ao sol (m²):</label>
+                <input type="number" id="areaJanelaVidroSol" value="520" min="0">
+            </div>
+            <div class="input-group">
+                <label for="areaJanelaVidroSolCortina">Área de janela/porta vidro ao sol c/ cortina (m²):</label>
+                <input type="number" id="areaJanelaVidroSolCortina" value="353" min="0">
+            </div>
+            <div class="input-group">
+                <label for="areaJanelaVidroSombra">Área de janela ou porta de vidro à sombra (m²):</label>
+                <input type="number" id="areaJanelaVidroSombra" value="42" min="0">
+            </div>
+            <div class="input-group">
+                <label for="areaCobertura">Área de cobertura (m²):</label>
+                <input type="number" id="areaCobertura" value="20" min="0">
+            </div>
+            <div class="input-group">
+                <label for="areaPisoEntreAndares">Área de piso entre andares (m²):</label>
+                <input type="number" id="areaPisoEntreAndares" value="10" min="0">
+            </div>
+            <div class="input-group">
+                <label for="numeroPessoas">Número de pessoas:</label>
+                <input type="number" id="numeroPessoas" value="100" min="0" step="1">
+            </div>
+            <div class="input-group">
+                <label for="potenciaEquipamentos">Potência dos equipamentos (Kcal/h total):</label>
+                <input type="number" id="potenciaEquipamentos" value="1550" min="0">
+            </div>
+            <div class="input-group">
+                <label for="potenciaIluminacao">Potência de iluminação (Kcal/h total):</label>
+                <input type="number" id="potenciaIluminacao" value="1200" min="0">
+            </div>
+            <div class="input-group">
+                <label for="vazaoArRenovacao">Vazão de ar de renovação (m³/h):</label>
+                <input type="number" id="vazaoArRenovacao" value="8.2" min="0" step="0.1">
+            </div>
+        </div>
+
+        <button id="calculateButton">Calcular Carga Térmica</button>
+
+        <div class="results-section">
+            <h2>Resultados:</h2>
+            <div class="result-item">
+                <span>Carga Térmica TOTAL (kcal/h):</span>
+                <span id="totalKcalh" class="result-value">0.00</span>
+            </div>
+            <div class="result-item">
+                <span>Carga Térmica TOTAL (BTU/h):</span>
+                <span id="totalBtuh" class="result-value">0.00</span>
+            </div>
+            <div class="result-item">
+                <span>Carga Térmica TOTAL (TR):</span>
+                <span id="totalTr" class="result-value">0.00</span>
+            </div>
+
+            <h3>Detalhamento das Cargas Individuais (kcal/h):</h3>
+            <div id="individualLoadsList" class="individual-loads-grid">
+                </div>
+        </div>
+        <div id="errorMessages" class="error-messages"></div>
     </div>
 
-    <h1>Calculadora de Carga Térmica</h1>
-    <p class="description">Preencha os dados do ambiente para estimar a carga térmica (kcal/h).</p>
-
-    <div class="input-instruction">
-      Digite apenas nos campos verdes. Os fatores são fixos.
-    </div>
-
-    <table class="thermal-table">
-      <thead>
-        <tr>
-          <th>Fonte de Calor</th>
-          <th>Quantidade</th>
-          <th>Fator</th>
-          <th>Carga Térmica (kcal/h)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Área do Ambiente (m²)</td>
-          <td><input type="number" step="any" placeholder="Ex: 20"></td>
-          <td class="fixed">100</td>
-          <td class="output">–</td>
-        </tr>
-        <tr>
-          <td>Número de Pessoas</td>
-          <td><input type="number" step="1" placeholder="Ex: 5"></td>
-          <td class="fixed">120</td>
-          <td class="output">–</td>
-        </tr>
-        <tr>
-          <td>Equipamentos Elétricos</td>
-          <td><input type="number" step="1" placeholder="Ex: 3"></td>
-          <td class="fixed">150</td>
-          <td class="output">–</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="results-section">
-      <h2>Resultado Total</h2>
-      <div class="result-item" id="resultadoTotal">0.00 kcal/h</div>
-    </div>
-
-    <div class="buttons-section">
-      <button class="action-button" onclick="calcularCargaTermica()">Calcular</button>
-      <button class="action-button" onclick="window.print()">Imprimir</button>
-    </div>
-
-    <div class="note">
-      Esta calculadora é uma estimativa inicial com base em valores padrão. Ajustes mais precisos devem ser feitos por um profissional qualificado.
-    </div>
-  </div>
-
-  <script>
-    function calcularCargaTermica() {
-      const linhas = document.querySelectorAll(".thermal-table tbody tr");
-      let cargaTotal = 0;
-
-      linhas.forEach((linha) => {
-        const input = linha.querySelector("input");
-        const fator = parseFloat(linha.querySelector(".fixed").textContent.replace(",", "."));
-        const output = linha.querySelector(".output");
-
-        const valor = parseFloat(input.value.replace(",", "."));
-        if (!isNaN(valor) && !isNaN(fator)) {
-          const carga = valor * fator;
-          output.textContent = carga.toFixed(2);
-          cargaTotal += carga;
-        } else {
-          output.textContent = "–";
-        }
-      });
-
-      document.getElementById("resultadoTotal").textContent = cargaTotal.toFixed(2) + " kcal/h";
-    }
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>
