@@ -1,38 +1,39 @@
 // Aguarda o carregamento completo do DOM para iniciar o script
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 1. Constantes para Fatores de Carga Térmica e Conversão (VALIDADOS)
+    // 1. Constantes com os valores ajustados conforme a imagem.
+    // HEAT_GAIN_FACTORS agora corresponde à coluna "Fator Fixo".
     const HEAT_GAIN_FACTORS = {
-        "area_paredes_sol": 158,                 // kcal/h por m²
-        "area_paredes_sombra": 95,               // kcal/h por m²
-        "area_janela_vidro_sol": 520,            // kcal/h por m²
-        "area_janela_vidro_sol_cortina": 353,    // kcal/h por m²
-        "area_janela_vidro_sombra": 42,          // kcal/h por m²
-        "area_cobertura": 20,                    // kcal/h por m²
-        "area_piso_entre_andares": 10,           // kcal/h por m²
-        "numero_pessoas": 100,                   // kcal/h por pessoa
-        "potencia_equipamentos": 1550,           // Fator Fixo Kcal/h
-        "potencia_iluminacao": 1200,             // Fator Fixo Kcal/h
-        "vazao_ar_renovacao": 8.2                // kcal/h por m³/h
+        "area_paredes_sol": 43,
+        "area_paredes_sombra": 18,
+        "area_janela_vidro_sol": 16,
+        "area_janela_vidro_sol_cortina": 12,
+        "area_janela_vidro_sombra": 0,
+        "area_cobertura": 229,
+        "area_piso_entre_andares": 0,
+        "numero_pessoas": 13,
+        "potencia_equipamentos": 1, 
+        "potencia_iluminacao": 1,
+        "vazao_ar_renovacao": 357
     };
 
     const BTU_PER_KCAL = 3.96832;
     const BTU_PER_TR = 12000.0;
 
-    // Mapeamento para nomes amigáveis e valores padrão de entrada
+    // PARCEL_DEFINITIONS agora define os rótulos e os valores padrão para a coluna "Quantidade".
+    // Os valores de 'default' foram deduzidos da sua imagem (Carga Térmica / Fator Fixo).
     const PARCEL_DEFINITIONS = {
-        "area_paredes_sol": { label: "Área de paredes ao SOL (m²)", default: 43 },
-        "area_paredes_sombra": { label: "Área de paredes à sombra (m²)", default: 18 },
-        "area_janela_vidro_sol": { label: "Área de janela ou porta de vidro ao sol (m²)", default: 16 },
-        "area_janela_vidro_sol_cortina": { label: "Área de janela/porta vidro ao sol c/ cortina (m²)", default: 12 },
+        "area_paredes_sol": { label: "Área de paredes ao SOL (m²)", default: 158 },
+        "area_paredes_sombra": { label: "Área de paredes à sombra (m²)", default: 95 },
+        "area_janela_vidro_sol": { label: "Área de janela ou porta de vidro ao sol (m²)", default: 520 },
+        "area_janela_vidro_sol_cortina": { label: "Área de janela/porta vidro ao sol c/ cortina (m²)", default: 353 },
         "area_janela_vidro_sombra": { label: "Área de janela ou porta de vidro à sombra (m²)", default: 0 },
-        "area_cobertura": { label: "Área de cobertura (m²)", default: 229 },
+        "area_cobertura": { label: "Área de cobertura (m²)", default: 20 },
         "area_piso_entre_andares": { label: "Área de piso entre andares (m²)", default: 0 },
-        "numero_pessoas": { label: "Número de pessoas", default: 13, isInteger: true },
-        // AJUSTE: Rótulo mais claro para indicar que o valor '1' usa o fator padrão.
-        "potencia_equipamentos": { label: "Fator para Equipamentos (use 1 para padrão)", default: 1 },
-        "potencia_iluminacao": { label: "Fator para Iluminação (use 1 para padrão)", default: 1 },
-        "vazao_ar_renovacao": { label: "Vazão de ar de renovação (m³/h)", default: 357 },
+        "numero_pessoas": { label: "Número de pessoas", default: 100, isInteger: true },
+        "potencia_equipamentos": { label: "Potência dos equipamentos (Kcal/h)", default: 1550 },
+        "potencia_iluminacao": { label: "Potência de iluminação (Kcal/h)", default: 1200 },
+        "vazao_ar_renovacao": { label: "Vazão de ar de renovação (m³/h)", default: 8.2 },
     };
 
     // 2. Referências aos elementos HTML
@@ -45,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputElements = {};
     const calculatedLoadSpans = {};
 
-    // 3. Gera as Linhas de Entrada Dinamicamente
+    // 3. Gera as Linhas de Entrada Dinamicamente (sem alterações na lógica)
     function generateInputRows() {
         for (const key in PARCEL_DEFINITIONS) {
             const parcel = PARCEL_DEFINITIONS[key];
@@ -54,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const row = document.createElement('div');
             row.classList.add('table-row');
             
-            // Coluna 1: Rótulo
             row.innerHTML = `
                 <span class="row-label">${parcel.label}</span>
                 <span class="row-input">
@@ -66,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             inputRowsContainer.appendChild(row);
 
-            // Armazena referências e adiciona listener
             const input = document.getElementById(`input_${key}`);
             inputElements[key] = input;
             calculatedLoadSpans[key] = row.querySelector('.row-calculated-load');
@@ -74,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 4. Obtém e Valida as Entradas do Usuário
+    // 4. Obtém e Valida as Entradas do Usuário (sem alterações na lógica)
     function getInputs() {
         const inputs = {};
         let hasError = false;
@@ -98,13 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return hasError ? null : inputs;
     }
     
-    // Função auxiliar para mostrar erros
     function displayError(message) {
         errorMessagesDiv.style.display = 'block';
         errorMessagesDiv.innerHTML += `<p>${message}</p>`;
     }
 
-    // 5. Calcula a Carga Térmica
+    // 5. Calcula a Carga Térmica (sem alterações na lógica)
     function calculateThermalLoad(inputs) {
         const individualLoads = {};
         let totalKcalh = 0;
@@ -121,14 +119,16 @@ document.addEventListener('DOMContentLoaded', () => {
         return { individualLoads, totalKcalh, totalBtuh, totalTr };
     }
 
-    // 6. Exibe os Resultados na Interface
+    // 6. Exibe os Resultados na Interface (sem alterações na lógica)
     function displayResults(results) {
         totalKcalhSpan.textContent = results.totalKcalh.toFixed(0);
         totalBtuhSpan.textContent = results.totalBtuh.toFixed(0);
         totalTrSpan.textContent = results.totalTr.toFixed(1);
 
         for (const key in results.individualLoads) {
-            calculatedLoadSpans[key].textContent = results.individualLoads[key].toFixed(0);
+            if (calculatedLoadSpans[key]) {
+                calculatedLoadSpans[key].textContent = results.individualLoads[key].toFixed(0);
+            }
         }
     }
 
