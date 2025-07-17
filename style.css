@@ -1,6 +1,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f4f7f6;
+    /* Alterado de #f4f7f6 para um verde claro */
+    background-color: #e6ffe6; /* Um tom de verde claro, você pode ajustar o código HEX se quiser outro */
     margin: 0;
     padding: 20px;
     display: flex;
@@ -65,12 +66,12 @@ h1 {
     background-color: #f9f9f9;
 }
 
-.header-cell { 
-    text-align: center; 
+.header-cell {
+    text-align: center;
 }
 
-.header-cell:first-child { 
-    text-align: left; 
+.header-cell:first-child {
+    text-align: left;
 }
 
 .row-label {
@@ -170,14 +171,14 @@ h1 {
         gap: 8px;
         padding: 15px;
     }
-    
+
     .row-label, .row-input input, .row-factor, .row-calculated-load {
         text-align: left; /* Alinha tudo à esquerda */
     }
 
     /* Adiciona um label antes do valor para identificar o que é */
     .row-factor::before, .row-calculated-load::before {
-        content: attr(data-label) ": "; 
+        content: attr(data-label) ": ";
         font-weight: normal;
         color: #555;
     }
