@@ -65,8 +65,13 @@ h1 {
     background-color: #f9f9f9;
 }
 
-.header-cell { text-align: center; }
-.header-cell:first-child { text-align: left; }
+.header-cell { 
+    text-align: center; 
+}
+
+.header-cell:first-child { 
+    text-align: left; 
+}
 
 .row-label {
     font-weight: 500;
