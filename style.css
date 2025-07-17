@@ -66,6 +66,12 @@ h1 {
     border-bottom: none; /* Remove borda do último cabeçalho */
 }
 
+/* Classes para forçar os elementos nas colunas corretas */
+.grid-col-1 { grid-column: 1; }
+.grid-col-2 { grid-column: 2; }
+.grid-col-3 { grid-column: 3; }
+.grid-col-4 { grid-column: 4; }
+
 .header-cell {
     text-align: center;
 }
@@ -82,6 +88,8 @@ h1 {
 .row-label {
     font-weight: 500;
     color: #333;
+    /* Alinhamento explícito para a primeira coluna */
+    text-align: left; 
 }
 
 .row-input input {
@@ -92,6 +100,8 @@ h1 {
     font-size: 0.95em;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
+    /* Alinhamento explícito para a segunda coluna (campo de entrada) */
+    text-align: center; 
 }
 
 .row-input input:focus {
@@ -101,7 +111,7 @@ h1 {
 }
 
 .row-factor, .row-calculated-load {
-    text-align: right;
+    text-align: center; /* Alinhamento para as colunas de exibição */
     font-weight: bold;
     color: #444;
 }
@@ -170,17 +180,21 @@ h1 {
         grid-template-columns: 1fr; /* Empilha as colunas em telas menores */
         padding: 10px 15px;
     }
+    /* Redefine grid-column para não atrapalhar o empilhamento em telas pequenas */
+    .grid-col-1, .grid-col-2, .grid-col-3, .grid-col-4 {
+        grid-column: auto;
+    }
     .header-cell, .row-label, .row-input, .row-factor, .row-calculated-load {
         text-align: left; /* Alinha tudo à esquerda */
     }
-    .header-cell:not(:first-child) { /* Remove o text-align: center dos cabeçalhos em telas pequenas */
+    .header-cell:not(:first-child) { 
         text-align: left;
     }
     .row-input, .row-factor, .row-calculated-load {
-        margin-top: 5px; /* Adiciona um pequeno espaço entre os itens empilhados */
+        margin-top: 5px; 
     }
     .row-factor::before, .row-calculated-load::before {
-        content: attr(data-label) ": "; /* Exibe o label antes do valor */
+        content: attr(data-label) ": "; 
         font-weight: bold;
         color: #666;
     }
