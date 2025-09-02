@@ -1,7 +1,9 @@
+/* Tema Escuro para Calculadora de Carga Térmica */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* Alterado para um tom de azul escuro */
-    background-color: #0a192f; /* Ou escolha outro código de azul escuro, por exemplo: #1a2a3a, #2c3e50, #001f3f */
+    /* Fundo azul escuro principal */
+    background-color: #0a192f; 
+    color: #e0e0e0; /* Cor de texto padrão clara */
     margin: 0;
     padding: 20px;
     display: flex;
@@ -12,48 +14,49 @@ body {
 }
 
 .container {
-    background-color: #ffffff;
+    /* Container com fundo escuro, um pouco mais claro que o body */
+    background-color: #1e2a3a;
+    border: 1px solid #3c4a5b;
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
     max-width: 1000px;
     width: 100%;
     box-sizing: border-box;
 }
 
 h1 {
-    color: #0056b3;
+    color: #58a6ff; /* Tom de azul claro para destaque */
     text-align: center;
     margin-bottom: 10px;
 }
 
 .description {
     text-align: center;
-    color: #555;
+    color: #a0aec0; /* Cinza claro para descrição */
     margin-bottom: 25px;
     font-size: 1.1em;
 }
 
-/* Estilo da tabela com Grid Layout */
+/* Tabela */
 .table-container {
-    border: 1px solid #ddd;
+    border: 1px solid #3c4a5b;
     border-radius: 8px;
     overflow: hidden;
     margin-bottom: 30px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .table-header, .table-row {
     display: grid;
-    grid-template-columns: 2.5fr 1fr 1fr 1.5fr; /* Ajuste na proporção das colunas */
+    grid-template-columns: 2.5fr 1fr 1fr 1.5fr;
     align-items: center;
     padding: 12px 15px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #3c4a5b;
 }
 
 .table-header {
-    background-color: #007bff;
-    color: white;
+    background-color: #314a6e; /* Azul mais escuro para o cabeçalho */
+    color: #ffffff;
     font-weight: bold;
     border-bottom: none;
 }
@@ -63,7 +66,8 @@ h1 {
 }
 
 .table-row:nth-child(even) {
-    background-color: #f9f9f9;
+    /* Cor de fundo alternada para as linhas */
+    background-color: #2a3a4a;
 }
 
 .header-cell {
@@ -76,53 +80,55 @@ h1 {
 
 .row-label {
     font-weight: 500;
-    color: #333;
+    color: #e0e0e0;
     text-align: left;
     padding-right: 10px;
 }
 
+/* Campos de Input */
 .row-input input {
     width: 100%;
     padding: 8px 10px;
-    border: 1px solid #ccc;
+    background-color: #1a2a3a;
+    border: 1px solid #4a5a6a;
     border-radius: 5px;
     font-size: 0.95em;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
     text-align: center;
+    color: #ffffff; /* Texto branco no input */
 }
 
 .row-input input:focus {
-    border-color: #007bff;
+    border-color: #58a6ff;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.3);
 }
 
 .row-factor, .row-calculated-load {
     text-align: center;
     font-weight: bold;
-    color: #444;
+    color: #a0aec0;
 }
 
 .row-calculated-load {
-    color: #0056b3;
+    color: #87ceeb; /* Azul claro para o valor calculado */
 }
 
-/* Seção de Resultados Totais */
+/* Seção de Resultados */
 .results-section {
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 2px solid #eee;
+    border-top: 2px solid #3c4a5b;
 }
 
 .total-results-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
-    padding: 15px;
-    background-color: #e0f7fa;
+    padding: 20px;
+    background-color: #2a3a4a; /* Fundo da área de resultados */
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
 .total-item {
@@ -131,7 +137,7 @@ h1 {
     align-items: center;
     font-size: 1.2em;
     padding: 8px 0;
-    border-bottom: 1px dashed #c0e0e7;
+    border-bottom: 1px dashed #4a5a6a;
 }
 
 .total-item:last-child {
@@ -140,14 +146,14 @@ h1 {
 
 .result-value {
     font-weight: bold;
-    color: #007bff;
+    color: #87ceeb; /* Azul claro para os totais */
 }
 
-/* Mensagens de Erro e Validação */
+/* Mensagens de Erro */
 .error-messages {
-    color: #dc3545;
-    background-color: #f8d7da;
-    border: 1px solid #f5c6cb;
+    color: #ffffff;
+    background-color: #5e1621;
+    border: 1px solid #a4323b;
     border-radius: 5px;
     padding: 15px;
     margin-top: 20px;
@@ -157,29 +163,28 @@ h1 {
 
 .error-input {
     border-color: #dc3545 !important;
-    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2) !important;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.3) !important;
 }
 
-/* Responsividade para telas menores (ex: celulares) */
+/* Responsividade (não precisa de alteração) */
 @media (max-width: 768px) {
     .table-header {
-        display: none; /* Esconde o cabeçalho fixo */
+        display: none;
     }
 
     .table-row {
-        grid-template-columns: 1fr; /* Empilha as colunas */
+        grid-template-columns: 1fr;
         gap: 8px;
         padding: 15px;
     }
 
     .row-label, .row-input input, .row-factor, .row-calculated-load {
-        text-align: left; /* Alinha tudo à esquerda */
+        text-align: left;
     }
-
-    /* Adiciona um label antes do valor para identificar o que é */
+    
     .row-factor::before, .row-calculated-load::before {
         content: attr(data-label) ": ";
         font-weight: normal;
-        color: #555;
+        color: #a0aec0; /* Cor do label em telas pequenas */
     }
 }
