@@ -1,128 +1,185 @@
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    background-color: #f4f7f9;
-    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Alterado para um tom de azul escuro */
+    background-color: #0a192f; /* Ou escolha outro código de azul escuro, por exemplo: #1a2a3a, #2c3e50, #001f3f */
     margin: 0;
     padding: 20px;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    min-height: 100vh;
+    box-sizing: border-box;
 }
 
 .container {
-    width: 100%;
-    max-width: 900px;
     background-color: #ffffff;
     padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 h1 {
-    font-size: 24px;
-    color: #005a2b; /* Verde IFSC */
-    border-bottom: 2px solid #f0f0f0;
-    padding-bottom: 15px;
-    margin-top: 0;
+    color: #0056b3;
+    text-align: center;
+    margin-bottom: 10px;
 }
 
 .description {
-    font-size: 16px;
+    text-align: center;
     color: #555;
     margin-bottom: 25px;
+    font-size: 1.1em;
 }
 
+/* Estilo da tabela com Grid Layout */
 .table-container {
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
     overflow: hidden;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.table-header, .table-row {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr 1fr 1.5fr; /* Ajuste na proporção das colunas */
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
 }
 
 .table-header {
-    display: grid;
-    grid-template-columns: 3fr 1fr 1fr 1.5fr;
-    background-color: #f9fafb;
+    background-color: #007bff;
+    color: white;
     font-weight: bold;
-    color: #444;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.header-cell {
-    padding: 12px 15px;
-    text-align: left;
-}
-
-.header-cell:not(:first-child) {
-    text-align: right;
-}
-
-/* O JavaScript irá gerar os elementos com a classe .table-row */
-.table-row {
-    display: grid;
-    grid-template-columns: 3fr 1fr 1fr 1.5fr;
-    align-items: center;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: none;
 }
 
 .table-row:last-child {
     border-bottom: none;
 }
 
-.row-label, .row-input, .row-factor, .row-calculated-load {
-    padding: 10px 15px;
+.table-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.header-cell {
+    text-align: center;
+}
+
+.header-cell:first-child {
+    text-align: left;
+}
+
+.row-label {
+    font-weight: 500;
+    color: #333;
+    text-align: left;
+    padding-right: 10px;
 }
 
 .row-input input {
-    width: 90%;
-    padding: 8px;
+    width: 100%;
+    padding: 8px 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: right;
-    font-size: 14px;
+    border-radius: 5px;
+    font-size: 0.95em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    text-align: center;
 }
 
 .row-input input:focus {
-    outline: none;
     border-color: #007bff;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
 }
 
 .row-factor, .row-calculated-load {
-    text-align: right;
-    font-weight: 500;
+    text-align: center;
+    font-weight: bold;
+    color: #444;
 }
 
+.row-calculated-load {
+    color: #0056b3;
+}
+
+/* Seção de Resultados Totais */
 .results-section {
-    margin-top: 30px;
-    padding: 20px;
-    background-color: #f9fafb;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
 }
 
 .total-results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 15px;
+    background-color: #e0f7fa;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 
 .total-item {
     display: flex;
     justify-content: space-between;
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
+    align-items: center;
+    font-size: 1.2em;
+    padding: 8px 0;
+    border-bottom: 1px dashed #c0e0e7;
+}
+
+.total-item:last-child {
+    border-bottom: none;
 }
 
 .result-value {
-    color: #005a2b;
-    background-color: #e6f7ee;
-    padding: 2px 8px;
-    border-radius: 4px;
+    font-weight: bold;
+    color: #007bff;
 }
 
+/* Mensagens de Erro e Validação */
 .error-messages {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    padding: 15px;
     margin-top: 20px;
-    color: #d93025;
-    font-weight: bold;
+    display: none; /* Escondido por padrão */
+    text-align: center;
+}
+
+.error-input {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2) !important;
+}
+
+/* Responsividade para telas menores (ex: celulares) */
+@media (max-width: 768px) {
+    .table-header {
+        display: none; /* Esconde o cabeçalho fixo */
+    }
+
+    .table-row {
+        grid-template-columns: 1fr; /* Empilha as colunas */
+        gap: 8px;
+        padding: 15px;
+    }
+
+    .row-label, .row-input input, .row-factor, .row-calculated-load {
+        text-align: left; /* Alinha tudo à esquerda */
+    }
+
+    /* Adiciona um label antes do valor para identificar o que é */
+    .row-factor::before, .row-calculated-load::before {
+        content: attr(data-label) ": ";
+        font-weight: normal;
+        color: #555;
+    }
 }
