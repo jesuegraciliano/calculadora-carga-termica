@@ -2,48 +2,46 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Estimativa de Carga Térmica Online</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Calculadora de Carga Térmica</title>
+    <style>
+        /* Estilos básicos para melhor visualização */
+        body { font-family: sans-serif; }
+        .calculator { max-width: 800px; margin: auto; }
+        .table-row { display: grid; grid-template-columns: 3fr 1fr 1fr 1fr; gap: 10px; padding: 5px 0; border-bottom: 1px solid #ccc; }
+        .table-header { font-weight: bold; }
+        .row-label { text-align: left; }
+        .row-input input { width: 100%; }
+        .row-factor, .row-calculated-load { text-align: right; }
+        .totals { margin-top: 20px; padding: 10px; background-color: #f0f0f0; }
+        .error-input { border: 1px solid red; }
+        #errorMessages { color: red; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>
-            <img src="logo-ifsc.png" alt="Logo IFSC" style="height: 50px; vertical-align: middle; margin-right: 10px;">
-            Estimativa de Carga Térmica
-        </h1>
-        <p class="description">Preencha os dados do ambiente na coluna "Quantidade" para estimar a carga térmica.</p>
 
-        <div class="table-container">
-            <div class="table-header">
-                <span class="header-cell">Fonte de Calor</span>
-                <span class="header-cell">Quantidade</span>
-                <span class="header-cell">Fator Fixo</span>
-                <span class="header-cell">Carga Térmica (kcal/h)</span>
-            </div>
-            <div class="table-body" id="inputRows"></div>
+    <div class="calculator">
+        <h1>Calculadora de Carga Térmica</h1>
+
+        <div class="table-row table-header">
+            <span>Item da Carga Térmica</span>
+            <span>Valor</span>
+            <span>Fator</span>
+            <span>Carga (W)</span>
         </div>
 
-        <div class="results-section">
-            <div class="total-results-grid">
-                <div class="total-item">
-                    <span>CARGA TÉRMICA TOTAL (kcal/h):</span>
-                    <span id="totalKcalh" class="result-value">0</span>
-                </div>
-                <div class="total-item">
-                    <span>CARGA TÉRMICA TOTAL (BTU/h):</span>
-                    <span id="totalBtuh" class="result-value">0</span>
-                </div>
-                <div class="total-item">
-                    <span>CARGA TÉRMICA TOTAL (TR):</span>
-                    <span id="totalTr" class="result-value">0</span>
-                </div>
+        <div id="inputRows">
             </div>
+
+        <div class="totals">
+            <h3>Resultados Totais</h3>
+            <p>CARGA TÉRMICA TOTAL (Watts): <strong id="totalWatts">0</strong></p>
+            <p>CARGA TÉRMICA TOTAL (kcal/h): <strong id="totalKcalh">0</strong></p>
+            <p>CARGA TÉRMICA TOTAL (BTU/h): <strong id="totalBtuh">0</strong></p>
+            <p>CARGA TÉRMICA TOTAL (TR): <strong id="totalTr">0.0</strong></p>
         </div>
 
-        <div id="errorMessages" class="error-messages"></div>
+        <div id="errorMessages"></div>
     </div>
 
-    <script src="script.js"></script>
-</body>
+    <script src="seu_script.js"></script> </body>
 </html>
